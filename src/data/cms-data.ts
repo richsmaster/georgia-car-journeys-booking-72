@@ -146,70 +146,192 @@ export const defaultCMSData: CMSData = {
   },
   booking: {
     cities: [
-      { id: 'tbilisi', name: 'تبليسي', nameEn: 'Tbilisi', factor: 1.0, enabled: true, order: 1 },
-      { id: 'batumi', name: 'باتومي', nameEn: 'Batumi', factor: 1.2, enabled: true, order: 2 },
-      { id: 'kutaisi', name: 'كوتايسي', nameEn: 'Kutaisi', factor: 0.9, enabled: true, order: 3 },
-      { id: 'mtskheta', name: 'متسخيتا', nameEn: 'Mtskheta', factor: 0.8, enabled: true, order: 4 },
-      { id: 'gori', name: 'جوري', nameEn: 'Gori', factor: 0.7, enabled: true, order: 5 },
-      { id: 'zugdidi', name: 'زوجديدي', nameEn: 'Zugdidi', factor: 0.8, enabled: true, order: 6 },
-      { id: 'telavi', name: 'تيلافي', nameEn: 'Telavi', factor: 0.7, enabled: true, order: 7 },
-      { id: 'akhalkalaki', name: 'أخالكالاكي', nameEn: 'Akhalkalaki', factor: 0.6, enabled: true, order: 8 },
+      { 
+        id: 'tbilisi', 
+        name: 'تبليسي', 
+        nameEn: 'Tbilisi', 
+        factor: 1.0, 
+        enabled: true, 
+        order: 1, 
+        hasAirport: true,
+        availableTours: ['tbilisi-city', 'mtskheta', 'gori', 'kazbegi', 'kakheti', 'dashbashi', 'bakuriani', 'borjomi']
+      },
+      { 
+        id: 'batumi', 
+        name: 'باتومي', 
+        nameEn: 'Batumi', 
+        factor: 1.2, 
+        enabled: true, 
+        order: 2, 
+        hasAirport: true,
+        availableTours: ['batumi-city', 'batumi-waterfalls', 'batumi-gardens']
+      },
+      { 
+        id: 'kutaisi', 
+        name: 'كوتايسي', 
+        nameEn: 'Kutaisi', 
+        factor: 0.9, 
+        enabled: true, 
+        order: 3, 
+        hasAirport: true,
+        availableTours: ['kutaisi-city', 'prometheus-cave', 'martvili-canyon']
+      },
+      { 
+        id: 'borjomi', 
+        name: 'برجومي', 
+        nameEn: 'Borjomi', 
+        factor: 0.8, 
+        enabled: true, 
+        order: 4, 
+        hasAirport: false,
+        availableTours: ['borjomi-park', 'bakuriani']
+      },
+      { 
+        id: 'bakuriani', 
+        name: 'باكورياني', 
+        nameEn: 'Bakuriani', 
+        factor: 0.7, 
+        enabled: true, 
+        order: 5, 
+        hasAirport: false,
+        availableTours: ['bakuriani-ski', 'borjomi-park']
+      }
     ],
     airports: [
       { id: 'tbilisi-airport', name: 'مطار تبليسي الدولي', nameEn: 'Tbilisi International Airport', city: 'tbilisi', factor: 1.3, enabled: true, order: 1 },
       { id: 'batumi-airport', name: 'مطار باتومي الدولي', nameEn: 'Batumi International Airport', city: 'batumi', factor: 1.4, enabled: true, order: 2 },
-      { id: 'kutaisi-airport', name: 'مطار كوتايسي الدولي', nameEn: 'Kutaisi International Airport', city: 'kutaisi', factor: 1.2, enabled: true, order: 3 },
+      { id: 'kutaisi-airport', name: 'مطار كوتايسي الدولي', nameEn: 'Kutaisi International Airport', city: 'kutaisi', factor: 1.2, enabled: true, order: 3 }
     ],
     carTypes: [
       {
-        id: 'economy',
-        name: 'اقتصادية',
-        nameEn: 'Economy',
-        basePrice: 50,
-        features: ['تكييف', 'راديو', '4 مقاعد'],
+        id: 'sedan',
+        name: 'سيدان',
+        nameEn: 'Sedan',
+        capacity: { min: 1, max: 3 },
+        tourDailyPrice: 90,
+        airportTransfer: {
+          sameCity: { reception: 25, departure: 25 },
+          differentCity: { reception: 25, departure: 90 }
+        },
+        features: ['تكييف', 'راديو', 'GPS', '3 مقاعد مريحة'],
         image: '🚗',
         enabled: true,
         order: 1
       },
       {
-        id: 'comfort',
-        name: 'مريحة',
-        nameEn: 'Comfort',
-        basePrice: 70,
-        features: ['تكييف', 'راديو', 'GPS', '5 مقاعد'],
+        id: 'minivan',
+        name: 'ميني فان',
+        nameEn: 'Mini Van',
+        capacity: { min: 4, max: 6 },
+        tourDailyPrice: 100,
+        airportTransfer: {
+          sameCity: { reception: 40, departure: 40 },
+          differentCity: { reception: 40, departure: 100 }
+        },
+        features: ['تكييف', 'راديو', 'GPS', '6 مقاعد واسعة'],
         image: '🚙',
         enabled: true,
         order: 2
       },
       {
-        id: 'luxury',
-        name: 'فاخرة',
-        nameEn: 'Luxury',
-        basePrice: 120,
-        features: ['تكييف', 'راديو', 'GPS', 'جلد', '5 مقاعد فاخرة'],
-        image: '🚗',
+        id: 'van',
+        name: 'فان',
+        nameEn: 'Van',
+        capacity: { min: 7, max: 8 },
+        tourDailyPrice: 120,
+        airportTransfer: {
+          sameCity: { reception: 65, departure: 65 },
+          differentCity: { reception: 65, departure: 110 }
+        },
+        features: ['تكييف', 'GPS', '8 مقاعد مريحة', 'مساحة كبيرة'],
+        image: '🚐',
         enabled: true,
         order: 3
       },
       {
-        id: 'suv',
-        name: 'دفع رباعي',
-        nameEn: 'SUV',
-        basePrice: 100,
-        features: ['دفع رباعي', 'تكييف', 'GPS', '7 مقاعد'],
-        image: '🚙',
+        id: 'sprinter',
+        name: 'سبرنتر',
+        nameEn: 'Sprinter',
+        capacity: { min: 9, max: 14 },
+        tourDailyPrice: 250,
+        airportTransfer: {
+          sameCity: { reception: 120, departure: 120 },
+          differentCity: { reception: 120, departure: 250 }
+        },
+        features: ['تكييف', 'GPS', '14 مقعد فاخر', 'مساحة واسعة جداً'],
+        image: '🚌',
         enabled: true,
         order: 4
+      }
+    ],
+    hotels: [
+      {
+        id: 'tbilisi-hotel-1',
+        name: 'فندق تبليسي الفاخر',
+        nameEn: 'Tbilisi Luxury Hotel',
+        city: 'tbilisi',
+        stars: 5,
+        priceRange: { min: 80, max: 150 },
+        features: ['إفطار مجاني', 'مسبح', 'سبا', 'واي فاي مجاني'],
+        enabled: true,
+        order: 1
       },
       {
-        id: 'minibus',
-        name: 'ميني باص',
-        nameEn: 'Minibus',
-        basePrice: 150,
-        features: ['تكييف', 'GPS', '14 مقعد', 'مساحة كبيرة'],
-        image: '🚐',
+        id: 'batumi-hotel-1',
+        name: 'فندق باتومي البحري',
+        nameEn: 'Batumi Seaside Hotel',
+        city: 'batumi',
+        stars: 4,
+        priceRange: { min: 60, max: 120 },
+        features: ['إطلالة بحرية', 'إفطار مجاني', 'قريب من الشاطئ'],
         enabled: true,
-        order: 5
+        order: 1
+      },
+      {
+        id: 'kutaisi-hotel-1',
+        name: 'فندق كوتايسي المركزي',
+        nameEn: 'Kutaisi Central Hotel',
+        city: 'kutaisi',
+        stars: 3,
+        priceRange: { min: 40, max: 80 },
+        features: ['موقع مركزي', 'إفطار مجاني', 'واي فاي مجاني'],
+        enabled: true,
+        order: 1
+      }
+    ],
+    tourDestinations: [
+      {
+        id: 'tbilisi-city',
+        name: 'جولة مدينة تبليسي',
+        nameEn: 'Tbilisi City Tour',
+        availableFrom: ['tbilisi'],
+        duration: 'يوم كامل',
+        difficulty: 'easy',
+        highlights: ['البلدة القديمة', 'قلعة ناريكالا', 'الحمامات الكبريتية'],
+        enabled: true,
+        order: 1
+      },
+      {
+        id: 'kazbegi',
+        name: 'جولة كازبيجي والقوقاز',
+        nameEn: 'Kazbegi & Caucasus Tour',
+        availableFrom: ['tbilisi'],
+        duration: 'يوم كامل',
+        difficulty: 'medium',
+        highlights: ['جبل كازبيك', 'كنيسة التثليث', 'أنانوري'],
+        enabled: true,
+        order: 2
+      },
+      {
+        id: 'batumi-city',
+        name: 'جولة مدينة باتومي',
+        nameEn: 'Batumi City Tour',
+        availableFrom: ['batumi'],
+        duration: 'نصف يوم',
+        difficulty: 'easy',
+        highlights: ['البرج الأبجدي', 'الحديقة النباتية', 'الكورنيش'],
+        enabled: true,
+        order: 3
       }
     ],
     driverNationalities: [
@@ -217,14 +339,14 @@ export const defaultCMSData: CMSData = {
       { id: 'armenian', name: 'أرمني', factor: 1.1, enabled: true, order: 2 },
       { id: 'azerbaijani', name: 'أذربيجاني', factor: 1.1, enabled: true, order: 3 },
       { id: 'russian', name: 'روسي', factor: 1.2, enabled: true, order: 4 },
-      { id: 'turkish', name: 'تركي', factor: 1.3, enabled: true, order: 5 },
+      { id: 'turkish', name: 'تركي', factor: 1.3, enabled: true, order: 5 }
     ],
     languages: [
       { id: 'georgian', name: 'الجورجية', enabled: true, order: 1 },
       { id: 'english', name: 'الإنجليزية', enabled: true, order: 2 },
       { id: 'russian', name: 'الروسية', enabled: true, order: 3 },
       { id: 'arabic', name: 'العربية', enabled: true, order: 4 },
-      { id: 'turkish', name: 'التركية', enabled: true, order: 5 },
+      { id: 'turkish', name: 'التركية', enabled: true, order: 5 }
     ],
     tourTypes: [
       { id: 'city', name: 'جولة في المدينة', factor: 1.0, enabled: true, order: 1 },
@@ -232,7 +354,7 @@ export const defaultCMSData: CMSData = {
       { id: 'wine', name: 'جولة النبيذ', factor: 1.3, enabled: true, order: 3 },
       { id: 'historical', name: 'جولة تاريخية', factor: 1.2, enabled: true, order: 4 },
       { id: 'nature', name: 'جولة طبيعية', factor: 1.4, enabled: true, order: 5 },
-      { id: 'beach', name: 'جولة شاطئية', factor: 1.1, enabled: true, order: 6 },
+      { id: 'beach', name: 'جولة شاطئية', factor: 1.1, enabled: true, order: 6 }
     ],
     settings: {
       id: '1',
@@ -241,7 +363,8 @@ export const defaultCMSData: CMSData = {
       currencySymbol: '$',
       defaultLanguage: 'ar',
       minBookingDays: 1,
-      maxBookingDays: 30
+      maxBookingDays: 30,
+      mandatoryTourWhenDifferentCity: true
     }
   }
 };

@@ -57,7 +57,63 @@ export interface SiteSettings {
   fontFamily: string;
 }
 
-// New booking-related interfaces
+// Enhanced pricing structures
+export interface AirportTransferPricing {
+  sameCity: {
+    reception: number;
+    departure: number;
+  };
+  differentCity: {
+    reception: number;
+    departure: number;
+  };
+}
+
+export interface CarType {
+  id: string;
+  name: string;
+  nameEn: string;
+  capacity: {
+    min: number;
+    max: number;
+  };
+  tourDailyPrice: number;
+  airportTransfer: AirportTransferPricing;
+  features: string[];
+  image: string;
+  enabled: boolean;
+  order: number;
+  rating?: number;
+  reviews?: number;
+}
+
+export interface Hotel {
+  id: string;
+  name: string;
+  nameEn: string;
+  city: string;
+  stars: number;
+  priceRange: {
+    min: number;
+    max: number;
+  };
+  features: string[];
+  enabled: boolean;
+  order: number;
+}
+
+export interface TourDestination {
+  id: string;
+  name: string;
+  nameEn: string;
+  availableFrom: string[];
+  duration: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  highlights: string[];
+  enabled: boolean;
+  order: number;
+}
+
 export interface City {
   id: string;
   name: string;
@@ -65,6 +121,8 @@ export interface City {
   factor: number;
   enabled: boolean;
   order: number;
+  hasAirport: boolean;
+  availableTours: string[];
 }
 
 export interface Airport {
@@ -75,19 +133,6 @@ export interface Airport {
   factor: number;
   enabled: boolean;
   order: number;
-}
-
-export interface CarType {
-  id: string;
-  name: string;
-  nameEn: string;
-  basePrice: number;
-  features: string[];
-  image: string;
-  enabled: boolean;
-  order: number;
-  rating?: number;
-  reviews?: number;
 }
 
 export interface DriverNationality {
@@ -121,12 +166,15 @@ export interface BookingSettings {
   defaultLanguage: string;
   minBookingDays: number;
   maxBookingDays: number;
+  mandatoryTourWhenDifferentCity: boolean;
 }
 
 export interface BookingData {
   cities: City[];
   airports: Airport[];
   carTypes: CarType[];
+  hotels: Hotel[];
+  tourDestinations: TourDestination[];
   driverNationalities: DriverNationality[];
   languages: Language[];
   tourTypes: TourType[];

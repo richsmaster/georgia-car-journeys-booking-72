@@ -4,14 +4,58 @@ import { CMSData } from '../types/cms';
 import { getCMSData, updateCMSData, resetCMSData } from '../data/cms-data';
 
 export const useCMS = () => {
-  const [data, setData] = useState<CMSData>(getCMSData());
+  const [data, setData] = useState<CMSData>(() => {
+    const cmsData = getCMSData();
+    // Ensure booking data is always available
+    if (!cmsData.booking) {
+      cmsData.booking = {
+        cities: [],
+        airports: [],
+        carTypes: [],
+        driverNationalities: [],
+        languages: [],
+        tourTypes: [],
+        settings: {
+          id: '1',
+          whatsappNumber: '',
+          confirmationMessage: '',
+          currencySymbol: '$',
+          defaultLanguage: 'ar',
+          minBookingDays: 1,
+          maxBookingDays: 30
+        }
+      };
+    }
+    return cmsData;
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const updateData = async (newData: Partial<CMSData>) => {
     setIsLoading(true);
     try {
       updateCMSData(newData);
-      setData({ ...data, ...newData });
+      const updatedData = { ...data, ...newData };
+      // Ensure booking data structure is maintained
+      if (!updatedData.booking) {
+        updatedData.booking = {
+          cities: [],
+          airports: [],
+          carTypes: [],
+          driverNationalities: [],
+          languages: [],
+          tourTypes: [],
+          settings: {
+            id: '1',
+            whatsappNumber: '',
+            confirmationMessage: '',
+            currencySymbol: '$',
+            defaultLanguage: 'ar',
+            minBookingDays: 1,
+            maxBookingDays: 30
+          }
+        };
+      }
+      setData(updatedData);
     } catch (error) {
       console.error('Error updating CMS data:', error);
     } finally {
@@ -23,7 +67,28 @@ export const useCMS = () => {
     setIsLoading(true);
     try {
       resetCMSData();
-      setData(getCMSData());
+      const freshData = getCMSData();
+      // Ensure booking data is available after reset
+      if (!freshData.booking) {
+        freshData.booking = {
+          cities: [],
+          airports: [],
+          carTypes: [],
+          driverNationalities: [],
+          languages: [],
+          tourTypes: [],
+          settings: {
+            id: '1',
+            whatsappNumber: '',
+            confirmationMessage: '',
+            currencySymbol: '$',
+            defaultLanguage: 'ar',
+            minBookingDays: 1,
+            maxBookingDays: 30
+          }
+        };
+      }
+      setData(freshData);
     } catch (error) {
       console.error('Error resetting CMS data:', error);
     } finally {
@@ -32,7 +97,28 @@ export const useCMS = () => {
   };
 
   const refreshData = () => {
-    setData(getCMSData());
+    const freshData = getCMSData();
+    // Ensure booking data is available after refresh
+    if (!freshData.booking) {
+      freshData.booking = {
+        cities: [],
+        airports: [],
+        carTypes: [],
+        driverNationalities: [],
+        languages: [],
+        tourTypes: [],
+        settings: {
+          id: '1',
+          whatsappNumber: '',
+          confirmationMessage: '',
+          currencySymbol: '$',
+          defaultLanguage: 'ar',
+          minBookingDays: 1,
+          maxBookingDays: 30
+        }
+      };
+    }
+    setData(freshData);
   };
 
   useEffect(() => {

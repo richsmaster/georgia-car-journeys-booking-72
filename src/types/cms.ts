@@ -86,6 +86,8 @@ export interface CarType {
   image: string;
   enabled: boolean;
   order: number;
+  rating?: number;
+  reviews?: number;
 }
 
 export interface DriverNationality {

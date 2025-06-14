@@ -21,6 +21,7 @@ export default {
 		extend: {
 			fontFamily: {
 				'tajawal': ['Tajawal', 'serif'],
+				'sans': ['Tajawal', 'serif'],
 				'dancing': ['Dancing Script', 'cursive'],
 			},
 			colors: {

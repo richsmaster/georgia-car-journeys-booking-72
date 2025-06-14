@@ -5,6 +5,8 @@ import ServicesSection from '../components/Services/ServicesSection';
 import TestimonialsSection from '../components/Testimonials/TestimonialsSection';
 import Footer from '../components/Footer/Footer';
 import BookingForm from '../components/BookingForm/BookingForm';
+import { Button } from '../components/ui/button';
+import { Settings } from 'lucide-react';
 
 const Index = () => {
   const [showBookingForm, setShowBookingForm] = useState(false);
@@ -38,6 +40,19 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Dashboard Access Button */}
+      <div className="fixed top-4 left-4 z-50">
+        <Button
+          onClick={() => window.location.href = '/dashboard'}
+          variant="outline"
+          size="sm"
+          className="bg-white/90 backdrop-blur-sm shadow-lg border-white/20"
+        >
+          <Settings className="w-4 h-4 ml-2" />
+          لوحة التحكم
+        </Button>
+      </div>
+
       <HeroSection onBookNow={handleBookNow} />
       <ServicesSection />
       <TestimonialsSection />

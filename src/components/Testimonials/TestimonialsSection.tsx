@@ -2,55 +2,14 @@
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Star, Quote } from 'lucide-react';
+import { useCMS } from '../../hooks/useCMS';
 
 const TestimonialsSection: React.FC = () => {
-  const testimonials = [
-    {
-      name: "أحمد محمد",
-      country: "السعودية",
-      rating: 5,
-      text: "تجربة رائعة! السائق كان محترف جداً ويعرف أفضل الأماكن في جورجيا. السيارة كانت نظيفة ومريحة. أنصح بهذه الخدمة بشدة!",
-      trip: "رحلة إلى تبليسي وباتومي"
-    },
-    {
-      name: "فاطمة العلي",
-      country: "الإمارات",
-      rating: 5,
-      text: "خدمة ممتازة من البداية للنهاية. الحجز كان سهل والسائق وصل في الموعد بالضبط. قضيت وقت رائع في استكشاف جورجيا!",
-      trip: "جولة في كازبيجي"
-    },
-    {
-      name: "خالد إبراهيم",
-      country: "مصر",
-      rating: 5,
-      text: "أفضل شركة تأجير سيارات جربتها في جورجيا. السائق يتحدث العربية بطلاقة وساعدنا كثيراً في التنقل والتسوق.",
-      trip: "رحلة عائلية لمدة أسبوع"
-    },
-    {
-      name: "نورا الحمادي",
-      country: "الكويت",
-      rating: 5,
-      text: "تجربة مذهلة! السيارة كانت جديدة والسائق كان ودود ومتعاون. شاهدت أجمل المناظر في جورجيا بفضل هذه الخدمة الرائعة.",
-      trip: "جولة في سفانيتي"
-    },
-    {
-      name: "يوسف المنصوري",
-      country: "قطر",
-      rating: 5,
-      text: "خدمة احترافية جداً! كل شيء كان منظم ومرتب. السائق كان دليل سياحي ممتاز وأخذنا لأماكن لم نكن نعرفها من قبل.",
-      trip: "رحلة استكشافية"
-    },
-    {
-      name: "ريم الشمري",
-      country: "البحرين",
-      rating: 5,
-      text: "لا أستطيع أن أكون أكثر سعادة بهذه الخدمة! كل التفاصيل كانت مثالية. بالتأكيد سأحجز معهم مرة أخرى في زيارتي القادمة.",
-      trip: "رحلة شهر العسل"
-    }
-  ];
+  const { data } = useCMS();
+  const testimonials = data.testimonials.sort((a, b) => a.order - b.order);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-blue-50 to-indigo-100 font-tajawal">
+    <section className="py-20 bg-gradient-to-b from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
@@ -64,7 +23,7 @@ const TestimonialsSection: React.FC = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <Card 
-              key={index}
+              key={testimonial.id}
               className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-0 shadow-lg bg-white/90 backdrop-blur-sm animate-slide-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >

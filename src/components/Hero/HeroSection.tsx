@@ -2,14 +2,18 @@
 import React from 'react';
 import { Button } from '../ui/button';
 import { Car, Star, Award, Clock } from 'lucide-react';
+import { useCMS } from '../../hooks/useCMS';
 
 interface HeroSectionProps {
   onBookNow: () => void;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
+  const { data } = useCMS();
+  const heroData = data.hero;
+
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 overflow-hidden font-tajawal">
+    <section className="relative min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 bg-black/20"></div>
       <div className="absolute top-10 right-10 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
@@ -21,14 +25,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
           <div className="text-center lg:text-right space-y-8 animate-fade-in">
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
-                <span className="font-dancing text-yellow-400">استكشف</span>
+                <span className="font-dancing text-yellow-400">{heroData.title}</span>
                 <br />
                 <span className="bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-                  جورجيا بأناقة
+                  {heroData.subtitle}
                 </span>
               </h1>
               <p className="text-xl lg:text-2xl text-blue-100 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                احجز سيارتك المثالية مع سائق محترف واستمتع برحلة لا تُنسى في أجمل مدن جورجيا
+                {heroData.description}
               </p>
             </div>
 
@@ -58,30 +62,36 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
                 size="lg"
                 className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold px-12 py-6 text-xl rounded-full shadow-2xl hover:shadow-yellow-400/25 transition-all duration-300 transform hover:scale-105"
               >
-                احجز الآن
+                {heroData.primaryButtonText}
               </Button>
               <Button 
                 variant="outline"
                 size="lg"
                 className="border-2 border-white/30 text-white hover:bg-white/10 px-12 py-6 text-xl rounded-full backdrop-blur-lg transition-all duration-300"
               >
-                اعرف المزيد
+                {heroData.secondaryButtonText}
               </Button>
             </div>
 
             {/* Statistics */}
             <div className="grid grid-cols-3 gap-8 pt-12 border-t border-white/20">
               <div className="text-center">
-                <div className="text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">500+</div>
-                <div className="text-blue-200">عميل راضٍ</div>
+                <div className="text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">
+                  {heroData.statistics.customers.value}
+                </div>
+                <div className="text-blue-200">{heroData.statistics.customers.label}</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">50+</div>
-                <div className="text-blue-200">مدينة جورجية</div>
+                <div className="text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">
+                  {heroData.statistics.cities.value}
+                </div>
+                <div className="text-blue-200">{heroData.statistics.cities.label}</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">5</div>
-                <div className="text-blue-200">سنوات خبرة</div>
+                <div className="text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">
+                  {heroData.statistics.experience.value}
+                </div>
+                <div className="text-blue-200">{heroData.statistics.experience.label}</div>
               </div>
             </div>
           </div>

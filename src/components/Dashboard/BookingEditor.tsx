@@ -20,6 +20,8 @@ const BookingEditor: React.FC<BookingEditorProps> = ({ data, onSave }) => {
     cities: data?.cities || [],
     airports: data?.airports || [],
     carTypes: data?.carTypes || [],
+    hotels: data?.hotels || [],
+    tourDestinations: data?.tourDestinations || [],
     driverNationalities: data?.driverNationalities || [],
     languages: data?.languages || [],
     tourTypes: data?.tourTypes || [],
@@ -30,7 +32,8 @@ const BookingEditor: React.FC<BookingEditorProps> = ({ data, onSave }) => {
       currencySymbol: '$',
       defaultLanguage: 'ar',
       minBookingDays: 1,
-      maxBookingDays: 30
+      maxBookingDays: 30,
+      mandatoryTourWhenDifferentCity: false
     }
   };
 
@@ -48,7 +51,9 @@ const BookingEditor: React.FC<BookingEditorProps> = ({ data, onSave }) => {
       nameEn: 'New City',
       factor: 1.0,
       enabled: true,
-      order: formData.cities.length + 1
+      order: formData.cities.length + 1,
+      hasAirport: false,
+      availableTours: []
     };
     setFormData({
       ...formData,
@@ -77,7 +82,12 @@ const BookingEditor: React.FC<BookingEditorProps> = ({ data, onSave }) => {
       id: `car-${Date.now()}`,
       name: 'نوع سيارة جديد',
       nameEn: 'New Car Type',
-      basePrice: 50,
+      capacity: { min: 1, max: 4 },
+      tourDailyPrice: 90,
+      airportTransfer: {
+        sameCity: { reception: 25, departure: 25 },
+        differentCity: { reception: 25, departure: 90 }
+      },
       features: ['ميزة 1', 'ميزة 2'],
       image: '🚗',
       enabled: true,
@@ -213,11 +223,11 @@ const BookingEditor: React.FC<BookingEditorProps> = ({ data, onSave }) => {
                         />
                       </div>
                       <div>
-                        <Label>السعر الأساسي ($)</Label>
+                        <Label>السعر اليومي ($)</Label>
                         <Input
                           type="number"
-                          value={carType.basePrice}
-                          onChange={(e) => updateCarType(carType.id, { basePrice: parseInt(e.target.value) })}
+                          value={carType.tourDailyPrice}
+                          onChange={(e) => updateCarType(carType.id, { tourDailyPrice: parseInt(e.target.value) })}
                         />
                       </div>
                       <div>

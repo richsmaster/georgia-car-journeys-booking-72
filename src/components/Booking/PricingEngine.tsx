@@ -60,8 +60,9 @@ const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
     const dropoffLocation = allLocations.find(l => l.id === bookingData.dropoffLocation);
 
     // Determine if same city or different cities
-    const pickupCity = pickupLocation?.city || pickupLocation?.id;
-    const dropoffCity = dropoffLocation?.city || dropoffLocation?.id;
+    // For airports, use their city property; for cities, use their own id
+    const pickupCity = 'city' in pickupLocation! ? pickupLocation.city : pickupLocation!.id;
+    const dropoffCity = 'city' in dropoffLocation! ? dropoffLocation.city : dropoffLocation!.id;
     const isSameCity = pickupCity === dropoffCity;
 
     // Calculate reception and departure costs

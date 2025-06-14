@@ -26,7 +26,9 @@ const CitiesManager: React.FC<CitiesManagerProps> = ({ cities, onUpdateCities, o
       nameEn: 'New City',
       factor: 1.0,
       enabled: true,
-      order: cities.length + 1
+      order: cities.length + 1,
+      hasAirport: false,
+      availableTours: []
     };
     
     const updatedCities = [...cities, newCity];

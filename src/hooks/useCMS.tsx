@@ -12,6 +12,8 @@ export const useCMS = () => {
         cities: [],
         airports: [],
         carTypes: [],
+        hotels: [],
+        tourDestinations: [],
         driverNationalities: [],
         languages: [],
         tourTypes: [],
@@ -22,7 +24,8 @@ export const useCMS = () => {
           currencySymbol: '$',
           defaultLanguage: 'ar',
           minBookingDays: 1,
-          maxBookingDays: 30
+          maxBookingDays: 30,
+          mandatoryTourWhenDifferentCity: false
         }
       };
     }
@@ -41,6 +44,8 @@ export const useCMS = () => {
           cities: [],
           airports: [],
           carTypes: [],
+          hotels: [],
+          tourDestinations: [],
           driverNationalities: [],
           languages: [],
           tourTypes: [],
@@ -51,7 +56,8 @@ export const useCMS = () => {
             currencySymbol: '$',
             defaultLanguage: 'ar',
             minBookingDays: 1,
-            maxBookingDays: 30
+            maxBookingDays: 30,
+            mandatoryTourWhenDifferentCity: false
           }
         };
       }
@@ -74,6 +80,8 @@ export const useCMS = () => {
           cities: [],
           airports: [],
           carTypes: [],
+          hotels: [],
+          tourDestinations: [],
           driverNationalities: [],
           languages: [],
           tourTypes: [],
@@ -84,7 +92,8 @@ export const useCMS = () => {
             currencySymbol: '$',
             defaultLanguage: 'ar',
             minBookingDays: 1,
-            maxBookingDays: 30
+            maxBookingDays: 30,
+            mandatoryTourWhenDifferentCity: false
           }
         };
       }
@@ -104,6 +113,8 @@ export const useCMS = () => {
         cities: [],
         airports: [],
         carTypes: [],
+        hotels: [],
+        tourDestinations: [],
         driverNationalities: [],
         languages: [],
         tourTypes: [],
@@ -114,7 +125,8 @@ export const useCMS = () => {
           currencySymbol: '$',
           defaultLanguage: 'ar',
           minBookingDays: 1,
-          maxBookingDays: 30
+          maxBookingDays: 30,
+          mandatoryTourWhenDifferentCity: false
         }
       };
     }

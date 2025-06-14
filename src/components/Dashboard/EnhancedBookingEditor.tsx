@@ -23,6 +23,8 @@ const EnhancedBookingEditor: React.FC<EnhancedBookingEditorProps> = ({ data, onS
     cities: data?.cities || [],
     airports: data?.airports || [],
     carTypes: data?.carTypes || [],
+    hotels: data?.hotels || [],
+    tourDestinations: data?.tourDestinations || [],
     driverNationalities: data?.driverNationalities || [],
     languages: data?.languages || [],
     tourTypes: data?.tourTypes || [],
@@ -33,7 +35,8 @@ const EnhancedBookingEditor: React.FC<EnhancedBookingEditorProps> = ({ data, onS
       currencySymbol: '$',
       defaultLanguage: 'ar',
       minBookingDays: 1,
-      maxBookingDays: 30
+      maxBookingDays: 30,
+      mandatoryTourWhenDifferentCity: false
     }
   };
 

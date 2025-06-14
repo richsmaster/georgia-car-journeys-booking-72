@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BookingData } from '../../types/booking';
 import { useCMS } from '../../hooks/useCMS';
@@ -19,7 +18,7 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
     const car = cmsData.booking.carTypes.find(c => c.id === bookingData.carType);
     if (!car) return 0;
 
-    let basePrice = car.basePrice;
+    let tourDailyPrice = car.tourDailyPrice;
 
     // Calculate days
     const days = bookingData.pickupDate && bookingData.dropoffDate
@@ -44,7 +43,7 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
     const tourType = cmsData.booking.tourTypes.find(t => t.id === bookingData.tourType);
     const tourFactor = tourType?.factor || 1;
 
-    const totalPrice = Math.round(basePrice * days * locationFactor * nationalityFactor * tourFactor);
+    const totalPrice = Math.round(tourDailyPrice * days * locationFactor * nationalityFactor * tourFactor);
     
     return totalPrice;
   };

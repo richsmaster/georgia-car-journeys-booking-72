@@ -30,16 +30,16 @@ const SearchResults = () => {
     }
 
     if (maxPrice) {
-      filtered = filtered.filter(car => car.basePrice <= parseInt(maxPrice));
+      filtered = filtered.filter(car => car.tourDailyPrice <= parseInt(maxPrice));
     }
 
     // Sort cars
     switch (sortBy) {
       case 'price-low':
-        filtered.sort((a, b) => a.basePrice - b.basePrice);
+        filtered.sort((a, b) => a.tourDailyPrice - b.tourDailyPrice);
         break;
       case 'price-high':
-        filtered.sort((a, b) => b.basePrice - a.basePrice);
+        filtered.sort((a, b) => b.tourDailyPrice - a.tourDailyPrice);
         break;
       case 'rating':
         filtered.sort((a, b) => (b.rating || 4.5) - (a.rating || 4.5));

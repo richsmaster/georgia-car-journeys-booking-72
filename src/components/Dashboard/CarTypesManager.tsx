@@ -20,7 +20,12 @@ const CarTypesManager: React.FC<CarTypesManagerProps> = ({ carTypes, onUpdateCar
       id: `car-${Date.now()}`,
       name: 'نوع سيارة جديد',
       nameEn: 'New Car Type',
-      basePrice: 50,
+      capacity: { min: 1, max: 4 },
+      tourDailyPrice: 90,
+      airportTransfer: {
+        sameCity: { reception: 25, departure: 25 },
+        differentCity: { reception: 25, departure: 90 }
+      },
       features: ['ميزة 1', 'ميزة 2'],
       image: '🚗',
       enabled: true,
@@ -108,11 +113,11 @@ const CarTypesManager: React.FC<CarTypesManagerProps> = ({ carTypes, onUpdateCar
                   />
                 </div>
                 <div>
-                  <Label>السعر الأساسي ($)</Label>
+                  <Label>السعر اليومي ($)</Label>
                   <Input
                     type="number"
-                    value={carType.basePrice}
-                    onChange={(e) => updateCarType(carType.id, { basePrice: parseInt(e.target.value) })}
+                    value={carType.tourDailyPrice}
+                    onChange={(e) => updateCarType(carType.id, { tourDailyPrice: parseInt(e.target.value) })}
                   />
                 </div>
                 <div>

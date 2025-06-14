@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CMSData } from '../types/cms';
 import { getCMSData, updateCMSData, resetCMSData } from '../data/cms-data';
 

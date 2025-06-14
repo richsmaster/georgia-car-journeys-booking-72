@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -5,8 +6,8 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Plus, Trash2, Edit2, Save, X } from 'lucide-react';
-import { BookingData, City, Airport, CarType, DriverNationality, Language, TourType } from '../../types/cms';
+import { Plus, Trash2, Save } from 'lucide-react';
+import { BookingData, City, CarType } from '../../types/cms';
 
 interface BookingEditorProps {
   data: BookingData;
@@ -14,8 +15,26 @@ interface BookingEditorProps {
 }
 
 const BookingEditor: React.FC<BookingEditorProps> = ({ data, onSave }) => {
-  const [formData, setFormData] = useState(data);
-  const [editingItem, setEditingItem] = useState<{ type: string; id: string } | null>(null);
+  // Add safety checks to ensure data is properly structured
+  const safeData: BookingData = {
+    cities: data?.cities || [],
+    airports: data?.airports || [],
+    carTypes: data?.carTypes || [],
+    driverNationalities: data?.driverNationalities || [],
+    languages: data?.languages || [],
+    tourTypes: data?.tourTypes || [],
+    settings: data?.settings || {
+      id: '1',
+      whatsappNumber: '',
+      confirmationMessage: '',
+      currencySymbol: '$',
+      defaultLanguage: 'ar',
+      minBookingDays: 1,
+      maxBookingDays: 30
+    }
+  };
+
+  const [formData, setFormData] = useState<BookingData>(safeData);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -308,7 +327,38 @@ const BookingEditor: React.FC<BookingEditorProps> = ({ data, onSave }) => {
           </Card>
         </TabsContent>
 
-        {/* Similar tabs for airports, drivers, tours */}
+        <TabsContent value="airports">
+          <Card>
+            <CardHeader>
+              <CardTitle>إدارة المطارات</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-500">قسم المطارات - سيتم إضافته قريباً</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="drivers">
+          <Card>
+            <CardHeader>
+              <CardTitle>إدارة جنسيات السائقين</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-500">قسم السائقين - سيتم إضافته قريباً</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="tours">
+          <Card>
+            <CardHeader>
+              <CardTitle>إدارة أنواع الجولات</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-500">قسم الجولات - سيتم إضافته قريباً</p>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
 
       <div className="flex justify-end">

@@ -177,7 +177,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ className }) => {
                     ) : (
                       <NavigationMenuLink asChild>
                         <Link
-                          to={item.href}
+                          to={item.href || '/'}
                           className="text-slate-700 hover:text-blue-600 font-medium px-3 py-2 rounded-md transition-colors"
                         >
                           {item.title}
@@ -269,7 +269,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ className }) => {
                     </DropdownMenu>
                   ) : (
                     <Link
-                      to={item.href}
+                      to={'href' in item ? item.href : '/'}
                       className="flex items-center px-4 py-2 text-slate-700 hover:text-blue-600 hover:bg-slate-50 rounded-md transition-colors"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -286,5 +286,101 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ className }) => {
     </nav>
   );
 };
+
+const navigationItems = [
+  {
+    title: 'الصفحة الرئيسية',
+    href: '/',
+    icon: Home,
+  },
+  {
+    title: 'البحث والحجز',
+    icon: Search,
+    items: [
+      { title: 'البحث عن السيارات', href: '/search' },
+      { title: 'نتائج البحث', href: '/search-results' },
+      { title: 'نموذج الحجز', href: '/booking' },
+      { title: 'الحجوزات السريعة', href: '/quick-booking' },
+    ]
+  },
+  {
+    title: 'الخدمات',
+    icon: Car,
+    items: [
+      { title: 'تأجير السيارات', href: '/services/car-rental' },
+      { title: 'السائق مع السيارة', href: '/services/with-driver' },
+      { title: 'الجولات السياحية', href: '/services/tours' },
+      { title: 'خدمة المطار', href: '/services/airport' },
+      { title: 'الرحلات الطويلة', href: '/services/long-trips' },
+    ]
+  },
+  {
+    title: 'وجهات جورجيا',
+    icon: MapPin,
+    items: [
+      { title: 'تبليسي', href: '/destinations/tbilisi' },
+      { title: 'باتومي', href: '/destinations/batumi' },
+      { title: 'كازبيجي', href: '/destinations/kazbegi' },
+      { title: 'سفانيتي', href: '/destinations/svaneti' },
+      { title: 'كوتايسي', href: '/destinations/kutaisi' },
+      { title: 'جوري', href: '/destinations/gori' },
+    ]
+  },
+  {
+    title: 'أسطول السيارات',
+    icon: Compass,
+    items: [
+      { title: 'السيارات الاقتصادية', href: '/fleet/economy' },
+      { title: 'السيارات المتوسطة', href: '/fleet/midsize' },
+      { title: 'السيارات الفاخرة', href: '/fleet/luxury' },
+      { title: 'السيارات الرياضية', href: '/fleet/sports' },
+      { title: 'الحافلات الصغيرة', href: '/fleet/minibus' },
+    ]
+  },
+  {
+    title: 'دعم العملاء',
+    icon: Phone,
+    items: [
+      { title: 'اتصل بنا', href: '/support/contact' },
+      { title: 'الأسئلة الشائعة', href: '/support/faq' },
+      { title: 'البحث عن حجز', href: '/support/find-booking' },
+      { title: 'الشكاوى والاقتراحات', href: '/support/feedback' },
+      { title: 'المساعدة الطارئة', href: '/support/emergency' },
+    ]
+  },
+];
+
+const secondaryItems = [
+  {
+    title: 'العروض والخصومات',
+    icon: Gift,
+    items: [
+      { title: 'العروض الحالية', href: '/offers/current' },
+      { title: 'باقات خاصة', href: '/offers/packages' },
+      { title: 'برنامج الولاء', href: '/offers/loyalty' },
+      { title: 'عروض المواسم', href: '/offers/seasonal' },
+    ]
+  },
+  {
+    title: 'معلومات الشركة',
+    icon: Info,
+    items: [
+      { title: 'من نحن', href: '/about' },
+      { title: 'فريق العمل', href: '/about/team' },
+      { title: 'شهادات الجودة', href: '/about/certificates' },
+      { title: 'التقييمات', href: '/about/reviews' },
+    ]
+  },
+  {
+    title: 'المدونة',
+    icon: BookOpen,
+    items: [
+      { title: 'نصائح السفر', href: '/blog/travel-tips' },
+      { title: 'أماكن سياحية', href: '/blog/destinations' },
+      { title: 'تجارب العملاء', href: '/blog/experiences' },
+      { title: 'دليل المطاعم', href: '/blog/restaurants' },
+    ]
+  },
+];
 
 export default MainNavigation;

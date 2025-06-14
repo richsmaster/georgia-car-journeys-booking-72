@@ -1,0 +1,34 @@
+
+export interface BookingData {
+  // Step 1: Location
+  pickupLocation: string;
+  dropoffLocation: string;
+  pickupDate: string;
+  dropoffDate: string;
+  
+  // Step 2: Car Selection
+  carType: string;
+  tourType?: string;
+  
+  // Step 3: Driver Preferences
+  driverNationality: string;
+  driverLanguages: string[];
+  
+  // Step 4: Personal Info
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string;
+  passengers: number;
+  specialRequests: string;
+  
+  // Price calculation
+  totalPrice: number;
+}
+
+export interface Location {
+  id: string;
+  name: string;
+  nameEn: string;
+  factor: number;
+  city?: string;
+}

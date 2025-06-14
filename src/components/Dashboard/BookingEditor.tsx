@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -265,7 +264,7 @@ const BookingEditor: React.FC<BookingEditorProps> = ({ data, onSave }) => {
                     value={formData.settings.confirmationMessage}
                     onChange={(e) => setFormData({
                       ...formData,
-                      settings: { ...formData.settings, confirm ationMessage: e.target.value }
+                      settings: { ...formData.settings, confirmationMessage: e.target.value }
                     })}
                     rows={3}
                   />

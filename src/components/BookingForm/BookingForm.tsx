@@ -1,13 +1,13 @@
 
 import React, { useState } from 'react';
 import { BookingData } from '../../types/booking';
+import { useCMS } from '../../hooks/useCMS';
 import StepIndicator from './StepIndicator';
 import Step1Location from './Step1Location';
 import Step2CarSelection from './Step2CarSelection';
 import Step3DriverPreferences from './Step3DriverPreferences';
 import Step4PersonalInfo from './Step4PersonalInfo';
 import PriceSummary from './PriceSummary';
-import { cities, airports, carTypes, driverNationalities, tourTypes } from '../../data/georgia-data';
 import { useToast } from '@/hooks/use-toast';
 
 const BookingForm: React.FC = () => {
@@ -29,6 +29,7 @@ const BookingForm: React.FC = () => {
     totalPrice: 0
   });
 
+  const { data: cmsData } = useCMS();
   const { toast } = useToast();
 
   const updateBookingData = (data: Partial<BookingData>) => {
@@ -40,7 +41,7 @@ const BookingForm: React.FC = () => {
       return 0;
     }
 
-    const car = carTypes.find(c => c.id === bookingData.carType);
+    const car = cmsData.booking.carTypes.find(c => c.id === bookingData.carType);
     if (!car) return 0;
 
     let basePrice = car.basePrice;
@@ -51,7 +52,7 @@ const BookingForm: React.FC = () => {
       : 1;
 
     // Location factors
-    const allLocations = [...cities, ...airports];
+    const allLocations = [...cmsData.booking.cities, ...cmsData.booking.airports];
     const pickupLocation = allLocations.find(l => l.id === bookingData.pickupLocation);
     const dropoffLocation = allLocations.find(l => l.id === bookingData.dropoffLocation);
     
@@ -61,23 +62,28 @@ const BookingForm: React.FC = () => {
     );
 
     // Driver nationality factor
-    const driverNationality = driverNationalities.find(d => d.id === bookingData.driverNationality);
+    const driverNationality = cmsData.booking.driverNationalities.find(d => d.id === bookingData.driverNationality);
     const nationalityFactor = driverNationality?.factor || 1;
 
     // Tour type factor
-    const tourType = tourTypes.find(t => t.id === bookingData.tourType);
+    const tourType = cmsData.booking.tourTypes.find(t => t.id === bookingData.tourType);
     const tourFactor = tourType?.factor || 1;
 
     return Math.round(basePrice * days * locationFactor * nationalityFactor * tourFactor);
   };
 
   const generateWhatsAppMessage = () => {
-    const allLocations = [...cities, ...airports];
+    const allLocations = [...cmsData.booking.cities, ...cmsData.booking.airports];
     const pickupLocation = allLocations.find(l => l.id === bookingData.pickupLocation);
     const dropoffLocation = allLocations.find(l => l.id === bookingData.dropoffLocation);
-    const car = carTypes.find(c => c.id === bookingData.carType);
-    const driverNationality = driverNationalities.find(d => d.id === bookingData.driverNationality);
-    const tourType = tourTypes.find(t => t.id === bookingData.tourType);
+    const car = cmsData.booking.carTypes.find(c => c.id === bookingData.carType);
+    const driverNationality = cmsData.booking.driverNationalities.find(d => d.id === bookingData.driverNationality);
+    const tourType = cmsData.booking.tourTypes.find(t => t.id === bookingData.tourType);
+
+    const languageNames = bookingData.driverLanguages.map(langId => {
+      const language = cmsData.booking.languages.find(l => l.id === langId);
+      return language?.name || langId;
+    }).join(', ');
 
     const message = `🚗 *طلب حجز سيارة في جورجيا*
 
@@ -93,17 +99,7 @@ ${tourType ? `- نوع الجولة: ${tourType.name}` : ''}
 
 👨‍✈️ *تفضيلات السائق:*
 - الجنسية: ${driverNationality?.name}
-- اللغات: ${bookingData.driverLanguages.map(lang => {
-  const language = ['georgian', 'english', 'russian', 'arabic', 'turkish'].find(l => l === lang);
-  const langNames = {
-    'georgian': 'الجورجية',
-    'english': 'الإنجليزية', 
-    'russian': 'الروسية',
-    'arabic': 'العربية',
-    'turkish': 'التركية'
-  };
-  return langNames[language as keyof typeof langNames] || lang;
-}).join(', ')}
+- اللغات: ${languageNames}
 
 👤 *بيانات العميل:*
 - الاسم: ${bookingData.customerName}
@@ -112,7 +108,7 @@ ${tourType ? `- نوع الجولة: ${tourType.name}` : ''}
 - عدد الركاب: ${bookingData.passengers}
 ${bookingData.specialRequests ? `- طلبات خاصة: ${bookingData.specialRequests}` : ''}
 
-💰 *السعر الإجمالي: $${calculateFinalPrice()}*
+💰 *السعر الإجمالي: ${cmsData.booking.settings.currencySymbol}${calculateFinalPrice()}*
 
 نرجو تأكيد الحجز وإرسال التفاصيل النهائية.`;
 
@@ -124,16 +120,16 @@ ${bookingData.specialRequests ? `- طلبات خاصة: ${bookingData.specialReq
     const updatedBookingData = { ...bookingData, totalPrice: finalPrice };
     setBookingData(updatedBookingData);
 
-    // Generate WhatsApp URL
+    // Generate WhatsApp URL using CMS settings
     const whatsappMessage = generateWhatsAppMessage();
-    const whatsappURL = `https://wa.me/+995551234567?text=${whatsappMessage}`;
+    const whatsappURL = `https://wa.me/${cmsData.booking.settings.whatsappNumber.replace('+', '')}?text=${whatsappMessage}`;
 
     // Open WhatsApp in new tab
     window.open(whatsappURL, '_blank');
 
     toast({
       title: "تم إنشاء الحجز بنجاح!",
-      description: "تم توجيهك إلى واتساب لإرسال تفاصيل الحجز",
+      description: cmsData.booking.settings.confirmationMessage,
     });
   };
 

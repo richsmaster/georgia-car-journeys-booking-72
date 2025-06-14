@@ -9,6 +9,7 @@ import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { Settings, Home, ArrowLeft, Save, RefreshCcw } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
+import BookingEditor from '../components/Dashboard/BookingEditor';
 
 const Dashboard = () => {
   const { data, updateData, resetData, isLoading } = useCMS();
@@ -79,11 +80,12 @@ const Dashboard = () => {
 
       <div className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="hero">الصفحة الرئيسية</TabsTrigger>
             <TabsTrigger value="services">الخدمات</TabsTrigger>
             <TabsTrigger value="testimonials">آراء العملاء</TabsTrigger>
             <TabsTrigger value="footer">تذييل الصفحة</TabsTrigger>
+            <TabsTrigger value="booking">إعدادات الحجز</TabsTrigger>
             <TabsTrigger value="settings">الإعدادات</TabsTrigger>
           </TabsList>
 
@@ -105,6 +107,11 @@ const Dashboard = () => {
           {/* Footer Section */}
           <TabsContent value="footer">
             <FooterEditor data={data.footer} onSave={(newData) => handleSave('footer', newData)} />
+          </TabsContent>
+
+          {/* Booking Section */}
+          <TabsContent value="booking">
+            <BookingEditor data={data.booking} onSave={(newData) => handleSave('booking', newData)} />
           </TabsContent>
 
           {/* Settings Section */}

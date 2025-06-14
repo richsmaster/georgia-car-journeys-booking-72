@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { BookingData } from '../../types/booking';
-import { cities, airports, carTypes, driverNationalities, tourTypes } from '../../data/georgia-data';
+import { useCMS } from '../../hooks/useCMS';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 interface PriceSummaryProps {
@@ -9,12 +9,14 @@ interface PriceSummaryProps {
 }
 
 const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
+  const { data: cmsData } = useCMS();
+
   const calculatePrice = () => {
     if (!bookingData.carType || !bookingData.pickupLocation || !bookingData.dropoffLocation) {
       return 0;
     }
 
-    const car = carTypes.find(c => c.id === bookingData.carType);
+    const car = cmsData.booking.carTypes.find(c => c.id === bookingData.carType);
     if (!car) return 0;
 
     let basePrice = car.basePrice;
@@ -25,7 +27,7 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
       : 1;
 
     // Location factors
-    const allLocations = [...cities, ...airports];
+    const allLocations = [...cmsData.booking.cities, ...cmsData.booking.airports];
     const pickupLocation = allLocations.find(l => l.id === bookingData.pickupLocation);
     const dropoffLocation = allLocations.find(l => l.id === bookingData.dropoffLocation);
     
@@ -35,11 +37,11 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
     );
 
     // Driver nationality factor
-    const driverNationality = driverNationalities.find(d => d.id === bookingData.driverNationality);
+    const driverNationality = cmsData.booking.driverNationalities.find(d => d.id === bookingData.driverNationality);
     const nationalityFactor = driverNationality?.factor || 1;
 
     // Tour type factor
-    const tourType = tourTypes.find(t => t.id === bookingData.tourType);
+    const tourType = cmsData.booking.tourTypes.find(t => t.id === bookingData.tourType);
     const tourFactor = tourType?.factor || 1;
 
     const totalPrice = Math.round(basePrice * days * locationFactor * nationalityFactor * tourFactor);
@@ -48,15 +50,15 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
   };
 
   const totalPrice = calculatePrice();
+  const allLocations = [...cmsData.booking.cities, ...cmsData.booking.airports];
 
   const getLocationName = (locationId: string) => {
-    const allLocations = [...cities, ...airports];
     const location = allLocations.find(l => l.id === locationId);
     return location ? location.name : '';
   };
 
   const getCarName = (carId: string) => {
-    const car = carTypes.find(c => c.id === carId);
+    const car = cmsData.booking.carTypes.find(c => c.id === carId);
     return car ? car.name : '';
   };
 
@@ -104,7 +106,7 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
         
         <div className="flex justify-between font-bold text-lg text-blue-600">
           <span>السعر الإجمالي:</span>
-          <span>${totalPrice}</span>
+          <span>{cmsData.booking.settings.currencySymbol}{totalPrice}</span>
         </div>
       </CardContent>
     </Card>

@@ -57,10 +57,85 @@ export interface SiteSettings {
   fontFamily: string;
 }
 
+// New booking-related interfaces
+export interface City {
+  id: string;
+  name: string;
+  nameEn: string;
+  factor: number;
+  enabled: boolean;
+  order: number;
+}
+
+export interface Airport {
+  id: string;
+  name: string;
+  nameEn: string;
+  city: string;
+  factor: number;
+  enabled: boolean;
+  order: number;
+}
+
+export interface CarType {
+  id: string;
+  name: string;
+  nameEn: string;
+  basePrice: number;
+  features: string[];
+  image: string;
+  enabled: boolean;
+  order: number;
+}
+
+export interface DriverNationality {
+  id: string;
+  name: string;
+  factor: number;
+  enabled: boolean;
+  order: number;
+}
+
+export interface Language {
+  id: string;
+  name: string;
+  enabled: boolean;
+  order: number;
+}
+
+export interface TourType {
+  id: string;
+  name: string;
+  factor: number;
+  enabled: boolean;
+  order: number;
+}
+
+export interface BookingSettings {
+  id: string;
+  whatsappNumber: string;
+  confirmationMessage: string;
+  currencySymbol: string;
+  defaultLanguage: string;
+  minBookingDays: number;
+  maxBookingDays: number;
+}
+
+export interface BookingData {
+  cities: City[];
+  airports: Airport[];
+  carTypes: CarType[];
+  driverNationalities: DriverNationality[];
+  languages: Language[];
+  tourTypes: TourType[];
+  settings: BookingSettings;
+}
+
 export interface CMSData {
   hero: HeroContent;
   services: ServiceItem[];
   testimonials: TestimonialItem[];
   footer: FooterContent;
   settings: SiteSettings;
+  booking: BookingData;
 }

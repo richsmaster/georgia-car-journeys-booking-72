@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { BookingData } from '../../types/booking';
-import { cities, airports } from '../../data/georgia-data';
+import { useCMS } from '../../hooks/useCMS';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { MapPin } from 'lucide-react';
@@ -17,10 +17,9 @@ const Step1Location: React.FC<Step1LocationProps> = ({
   updateBookingData,
   onNext
 }) => {
-  const allLocations = [
-    ...cities.map(city => ({ ...city, type: 'city' })),
-    ...airports.map(airport => ({ ...airport, type: 'airport' }))
-  ];
+  const { data: cmsData } = useCMS();
+  const cities = cmsData.booking.cities.filter(city => city.enabled).sort((a, b) => a.order - b.order);
+  const airports = cmsData.booking.airports.filter(airport => airport.enabled).sort((a, b) => a.order - b.order);
 
   const isFormValid = () => {
     return bookingData.pickupLocation && 

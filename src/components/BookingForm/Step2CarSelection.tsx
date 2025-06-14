@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { BookingData } from '../../types/booking';
-import { carTypes, tourTypes } from '../../data/georgia-data';
+import { useCMS } from '../../hooks/useCMS';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Car } from 'lucide-react';
@@ -19,6 +19,11 @@ const Step2CarSelection: React.FC<Step2CarSelectionProps> = ({
   onNext,
   onPrev
 }) => {
+  const { data: cmsData } = useCMS();
+  const carTypes = cmsData.booking.carTypes.filter(car => car.enabled).sort((a, b) => a.order - b.order);
+  const tourTypes = cmsData.booking.tourTypes.filter(tour => tour.enabled).sort((a, b) => a.order - b.order);
+  const currencySymbol = cmsData.booking.settings.currencySymbol;
+
   const isFormValid = () => {
     return bookingData.carType;
   };
@@ -49,7 +54,7 @@ const Step2CarSelection: React.FC<Step2CarSelectionProps> = ({
                   <div className="text-4xl mb-2">{car.image}</div>
                   <h4 className="font-semibold text-lg">{car.name}</h4>
                   <p className="text-sm text-gray-600 mb-2">{car.nameEn}</p>
-                  <p className="text-blue-600 font-bold">${car.basePrice}/يوم</p>
+                  <p className="text-blue-600 font-bold">{currencySymbol}{car.basePrice}/يوم</p>
                   <ul className="text-xs text-gray-600 mt-2 space-y-1">
                     {car.features.map((feature, index) => (
                       <li key={index}>• {feature}</li>

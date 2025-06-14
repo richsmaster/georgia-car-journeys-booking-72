@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { BookingData } from '../../types/booking';
-import { driverNationalities, languages } from '../../data/georgia-data';
+import { useCMS } from '../../hooks/useCMS';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { User } from 'lucide-react';
@@ -19,6 +19,10 @@ const Step3DriverPreferences: React.FC<Step3DriverPreferencesProps> = ({
   onNext,
   onPrev
 }) => {
+  const { data: cmsData } = useCMS();
+  const driverNationalities = cmsData.booking.driverNationalities.filter(driver => driver.enabled).sort((a, b) => a.order - b.order);
+  const languages = cmsData.booking.languages.filter(lang => lang.enabled).sort((a, b) => a.order - b.order);
+
   const handleLanguageToggle = (languageId: string) => {
     const currentLanguages = bookingData.driverLanguages || [];
     const updatedLanguages = currentLanguages.includes(languageId)

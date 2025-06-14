@@ -143,6 +143,106 @@ export const defaultCMSData: CMSData = {
     secondaryColor: '#fbbf24',
     accentColor: '#10b981',
     fontFamily: 'Tajawal'
+  },
+  booking: {
+    cities: [
+      { id: 'tbilisi', name: 'تبليسي', nameEn: 'Tbilisi', factor: 1.0, enabled: true, order: 1 },
+      { id: 'batumi', name: 'باتومي', nameEn: 'Batumi', factor: 1.2, enabled: true, order: 2 },
+      { id: 'kutaisi', name: 'كوتايسي', nameEn: 'Kutaisi', factor: 0.9, enabled: true, order: 3 },
+      { id: 'mtskheta', name: 'متسخيتا', nameEn: 'Mtskheta', factor: 0.8, enabled: true, order: 4 },
+      { id: 'gori', name: 'جوري', nameEn: 'Gori', factor: 0.7, enabled: true, order: 5 },
+      { id: 'zugdidi', name: 'زوجديدي', nameEn: 'Zugdidi', factor: 0.8, enabled: true, order: 6 },
+      { id: 'telavi', name: 'تيلافي', nameEn: 'Telavi', factor: 0.7, enabled: true, order: 7 },
+      { id: 'akhalkalaki', name: 'أخالكالاكي', nameEn: 'Akhalkalaki', factor: 0.6, enabled: true, order: 8 },
+    ],
+    airports: [
+      { id: 'tbilisi-airport', name: 'مطار تبليسي الدولي', nameEn: 'Tbilisi International Airport', city: 'tbilisi', factor: 1.3, enabled: true, order: 1 },
+      { id: 'batumi-airport', name: 'مطار باتومي الدولي', nameEn: 'Batumi International Airport', city: 'batumi', factor: 1.4, enabled: true, order: 2 },
+      { id: 'kutaisi-airport', name: 'مطار كوتايسي الدولي', nameEn: 'Kutaisi International Airport', city: 'kutaisi', factor: 1.2, enabled: true, order: 3 },
+    ],
+    carTypes: [
+      {
+        id: 'economy',
+        name: 'اقتصادية',
+        nameEn: 'Economy',
+        basePrice: 50,
+        features: ['تكييف', 'راديو', '4 مقاعد'],
+        image: '🚗',
+        enabled: true,
+        order: 1
+      },
+      {
+        id: 'comfort',
+        name: 'مريحة',
+        nameEn: 'Comfort',
+        basePrice: 70,
+        features: ['تكييف', 'راديو', 'GPS', '5 مقاعد'],
+        image: '🚙',
+        enabled: true,
+        order: 2
+      },
+      {
+        id: 'luxury',
+        name: 'فاخرة',
+        nameEn: 'Luxury',
+        basePrice: 120,
+        features: ['تكييف', 'راديو', 'GPS', 'جلد', '5 مقاعد فاخرة'],
+        image: '🚗',
+        enabled: true,
+        order: 3
+      },
+      {
+        id: 'suv',
+        name: 'دفع رباعي',
+        nameEn: 'SUV',
+        basePrice: 100,
+        features: ['دفع رباعي', 'تكييف', 'GPS', '7 مقاعد'],
+        image: '🚙',
+        enabled: true,
+        order: 4
+      },
+      {
+        id: 'minibus',
+        name: 'ميني باص',
+        nameEn: 'Minibus',
+        basePrice: 150,
+        features: ['تكييف', 'GPS', '14 مقعد', 'مساحة كبيرة'],
+        image: '🚐',
+        enabled: true,
+        order: 5
+      }
+    ],
+    driverNationalities: [
+      { id: 'georgian', name: 'جورجي', factor: 1.0, enabled: true, order: 1 },
+      { id: 'armenian', name: 'أرمني', factor: 1.1, enabled: true, order: 2 },
+      { id: 'azerbaijani', name: 'أذربيجاني', factor: 1.1, enabled: true, order: 3 },
+      { id: 'russian', name: 'روسي', factor: 1.2, enabled: true, order: 4 },
+      { id: 'turkish', name: 'تركي', factor: 1.3, enabled: true, order: 5 },
+    ],
+    languages: [
+      { id: 'georgian', name: 'الجورجية', enabled: true, order: 1 },
+      { id: 'english', name: 'الإنجليزية', enabled: true, order: 2 },
+      { id: 'russian', name: 'الروسية', enabled: true, order: 3 },
+      { id: 'arabic', name: 'العربية', enabled: true, order: 4 },
+      { id: 'turkish', name: 'التركية', enabled: true, order: 5 },
+    ],
+    tourTypes: [
+      { id: 'city', name: 'جولة في المدينة', factor: 1.0, enabled: true, order: 1 },
+      { id: 'mountain', name: 'جولة جبلية', factor: 1.5, enabled: true, order: 2 },
+      { id: 'wine', name: 'جولة النبيذ', factor: 1.3, enabled: true, order: 3 },
+      { id: 'historical', name: 'جولة تاريخية', factor: 1.2, enabled: true, order: 4 },
+      { id: 'nature', name: 'جولة طبيعية', factor: 1.4, enabled: true, order: 5 },
+      { id: 'beach', name: 'جولة شاطئية', factor: 1.1, enabled: true, order: 6 },
+    ],
+    settings: {
+      id: '1',
+      whatsappNumber: '+995551234567',
+      confirmationMessage: 'شكراً لك! تم استلام طلب الحجز وسنتواصل معك قريباً.',
+      currencySymbol: '$',
+      defaultLanguage: 'ar',
+      minBookingDays: 1,
+      maxBookingDays: 30
+    }
   }
 };
 
@@ -152,7 +252,12 @@ let cmsData: CMSData = { ...defaultCMSData };
 export const getCMSData = (): CMSData => {
   const stored = localStorage.getItem('cmsData');
   if (stored) {
-    cmsData = JSON.parse(stored);
+    try {
+      cmsData = JSON.parse(stored);
+    } catch (error) {
+      console.error('Error parsing stored CMS data:', error);
+      cmsData = { ...defaultCMSData };
+    }
   }
   return cmsData;
 };

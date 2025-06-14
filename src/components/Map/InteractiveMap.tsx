@@ -34,76 +34,101 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ onCarSelect }) => {
     }
 
     try {
-      // Dynamically import mapbox-gl
-      const mapboxgl = await import('mapbox-gl');
-      await import('mapbox-gl/dist/mapbox-gl.css');
+      // Check if we're in browser environment
+      if (typeof window === 'undefined') return;
 
-      if (!mapContainer.current || map.current) return;
+      // Create a script tag to load mapbox-gl from CDN
+      const script = document.createElement('script');
+      script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js';
+      script.onload = () => {
+        // Also load the CSS
+        const link = document.createElement('link');
+        link.href = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css';
+        link.rel = 'stylesheet';
+        document.head.appendChild(link);
 
-      // Set Mapbox token
-      mapboxgl.default.accessToken = mapboxToken;
-
-      map.current = new mapboxgl.default.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/light-v11',
-        center: [44.7939, 41.7151], // Tbilisi
-        zoom: 7,
-        pitch: 30,
-      });
-
-      // Add navigation controls
-      map.current.addControl(new mapboxgl.default.NavigationControl(), 'top-right');
-
-      // Add markers for cities with available cars
-      georgianCities.forEach((city) => {
-        if (!map.current) return;
-
-        // Create custom marker element
-        const markerElement = document.createElement('div');
-        markerElement.className = 'custom-marker';
-        markerElement.innerHTML = `
-          <div class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-white hover:bg-blue-700 transition-colors cursor-pointer">
-            <span class="text-xs font-bold">${city.cars}</span>
-          </div>
-        `;
-
-        // Create popup
-        const popup = new mapboxgl.default.Popup({
-          offset: 25,
-          closeButton: false,
-        }).setHTML(`
-          <div class="text-center p-2">
-            <h3 class="font-bold text-slate-900">${city.name}</h3>
-            <p class="text-sm text-slate-600">${city.cars} سيارة متاحة</p>
-            <button 
-              onclick="window.selectCity('${city.nameEn}')" 
-              class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-colors"
-            >
-              عرض السيارات
-            </button>
-          </div>
-        `);
-
-        // Add marker to map
-        new mapboxgl.default.Marker(markerElement)
-          .setLngLat([city.lng, city.lat])
-          .setPopup(popup)
-          .addTo(map.current);
-      });
-
-      // Global function for city selection
-      (window as any).selectCity = (cityName: string) => {
-        if (onCarSelect) {
-          onCarSelect('available', cityName);
-        }
+        initializeMap();
       };
-
-      setIsMapLoaded(true);
-      setTokenError('');
+      script.onerror = () => {
+        setTokenError('خطأ في تحميل مكتبة Mapbox');
+      };
+      document.head.appendChild(script);
     } catch (error) {
       console.error('Error loading Mapbox:', error);
       setTokenError('خطأ في تحميل الخريطة. تأكد من صحة الرمز المميز.');
     }
+  };
+
+  const initializeMap = () => {
+    if (!mapContainer.current || map.current) return;
+
+    // Access mapboxgl from global scope after script loads
+    const mapboxgl = (window as any).mapboxgl;
+    if (!mapboxgl) {
+      setTokenError('خطأ في تحميل مكتبة Mapbox');
+      return;
+    }
+
+    // Set Mapbox token
+    mapboxgl.accessToken = mapboxToken;
+
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: [44.7939, 41.7151], // Tbilisi
+      zoom: 7,
+      pitch: 30,
+    });
+
+    // Add navigation controls
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+    // Add markers for cities with available cars
+    georgianCities.forEach((city) => {
+      if (!map.current) return;
+
+      // Create custom marker element
+      const markerElement = document.createElement('div');
+      markerElement.className = 'custom-marker';
+      markerElement.innerHTML = `
+        <div class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-white hover:bg-blue-700 transition-colors cursor-pointer">
+          <span class="text-xs font-bold">${city.cars}</span>
+        </div>
+      `;
+
+      // Create popup
+      const popup = new mapboxgl.Popup({
+        offset: 25,
+        closeButton: false,
+      }).setHTML(`
+        <div class="text-center p-2">
+          <h3 class="font-bold text-slate-900">${city.name}</h3>
+          <p class="text-sm text-slate-600">${city.cars} سيارة متاحة</p>
+          <button 
+            onclick="window.selectCity('${city.nameEn}')" 
+            class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-colors"
+          >
+            عرض السيارات
+          </button>
+        </div>
+      `);
+
+      // Add marker to map
+      new mapboxgl.Marker(markerElement)
+        .setLngLat([city.lng, city.lat])
+        .setPopup(popup)
+        .addTo(map.current);
+    });
+
+    // Global function for city selection
+    (window as any).selectCity = (cityName: string) => {
+      if (onCarSelect) {
+        onCarSelect('available', cityName);
+      }
+    };
+
+    setIsMapLoaded(true);
+    setTokenError('');
   };
 
   useEffect(() => {

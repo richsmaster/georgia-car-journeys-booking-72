@@ -5,10 +5,12 @@ import ServicesSection from '../components/Services/ServicesSection';
 import TestimonialsSection from '../components/Testimonials/TestimonialsSection';
 import Footer from '../components/Footer/Footer';
 import BookingForm from '../components/BookingForm/BookingForm';
-import SearchBar, { SearchData } from '../components/Search/SearchBar';
+import InteractiveMap from '../components/Map/InteractiveMap';
+import EnhancedSearchBar, { EnhancedSearchData } from '../components/Search/EnhancedSearchBar';
 import { Button } from '../components/ui/button';
 import { Settings, Sparkles, MapPin, Clock, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const Index = () => {
   const [showBookingForm, setShowBookingForm] = useState(false);
@@ -33,17 +35,28 @@ const Index = () => {
     navigate('/', { replace: true });
   };
 
-  const handleSearch = (searchData: SearchData) => {
-    // Navigate to search results page with filters
+  const handleSearch = (searchData: EnhancedSearchData) => {
+    // Navigate to search results page with enhanced filters
     const params = new URLSearchParams();
     if (searchData.pickupLocation) params.set('pickup', searchData.pickupLocation);
     if (searchData.dropoffLocation) params.set('dropoff', searchData.dropoffLocation);
     if (searchData.pickupDate) params.set('pickupDate', searchData.pickupDate);
     if (searchData.dropoffDate) params.set('dropoffDate', searchData.dropoffDate);
     if (searchData.carType) params.set('carType', searchData.carType);
-    if (searchData.priceRange[1] < 500) params.set('maxPrice', searchData.priceRange[1].toString());
+    if (searchData.estimatedPrice > 0) params.set('estimatedPrice', searchData.estimatedPrice.toString());
 
     navigate(`/search?${params.toString()}`);
+  };
+
+  const handleQuickBook = (routeId: string) => {
+    // Pre-fill booking form with popular route
+    setShowBookingForm(true);
+    // You can add logic here to pre-fill the form based on routeId
+  };
+
+  const handleCarSelect = (carId: string, location: string) => {
+    // Handle car selection from map
+    navigate(`/search?pickup=${location}&carType=${carId}`);
   };
 
   if (showBookingForm) {
@@ -91,31 +104,56 @@ const Index = () => {
 
       <HeroSection onBookNow={handleBookNow} />
       
-      {/* Professional Search Section */}
+      {/* Enhanced Search Section with Interactive Map */}
       <section className="py-20 relative bg-gradient-to-r from-slate-50 to-white">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
             <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
               <Sparkles className="w-4 h-4" />
-              بحث متقدم
+              بحث متقدم وخريطة تفاعلية
             </div>
             <h2 className="text-4xl font-bold text-slate-900 mb-6">
-              ابحث عن السيارة المثالية
+              ابحث واحجز بسهولة
             </h2>
             <p className="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed">
-              استخدم البحث المتقدم للعثور على السيارة التي تناسب احتياجاتك وميزانيتك بأفضل الأسعار
+              استخدم البحث المتقدم مع حاسبة السعر الفورية أو اكتشف السيارات المتاحة على الخريطة التفاعلية
             </p>
-          </div>
+          </motion.div>
           
-          {/* Professional Search Bar */}
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-slate-200/50 p-8">
-              <SearchBar onSearch={handleSearch} />
-            </div>
+          {/* Enhanced Search Bar */}
+          <div className="max-w-6xl mx-auto mb-12">
+            <EnhancedSearchBar onSearch={handleSearch} onQuickBook={handleQuickBook} />
           </div>
 
+          {/* Interactive Map Section */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="max-w-4xl mx-auto mb-12"
+          >
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                اكتشف السيارات على الخريطة
+              </h3>
+              <p className="text-slate-600">
+                انقر على الأرقام لعرض السيارات المتاحة في كل مدينة
+              </p>
+            </div>
+            <InteractiveMap onCarSelect={handleCarSelect} />
+          </motion.div>
+
           {/* Professional Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
             <div className="text-center group">
               <div className="bg-white/70 backdrop-blur-lg rounded-xl p-8 shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300">
                 <MapPin className="w-12 h-12 text-blue-600 mx-auto mb-4" />
@@ -137,7 +175,7 @@ const Index = () => {
                 <p className="text-slate-600">تقييم العملاء</p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 

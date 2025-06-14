@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
-import { Car, Star, Award, Clock, ArrowRight, MapPin } from 'lucide-react';
+import { Car, Star, Award, Clock, ArrowRight, MapPin, Sparkles } from 'lucide-react';
 import { useCMS } from '../../hooks/useCMS';
+import { motion } from 'framer-motion';
 
 interface HeroSectionProps {
   onBookNow: () => void;
@@ -11,6 +11,13 @@ interface HeroSectionProps {
 const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
   const { data } = useCMS();
   const heroData = data.hero;
+
+  const scrollToSearch = () => {
+    const searchSection = document.querySelector('#search-section');
+    if (searchSection) {
+      searchSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <section className="relative min-h-screen overflow-hidden">
@@ -26,14 +33,29 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="grid lg:grid-cols-2 gap-16 items-center min-h-screen">
           {/* Content */}
-          <div className="text-center lg:text-right space-y-8">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center lg:text-right space-y-8"
+          >
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 backdrop-blur-sm text-blue-100 px-6 py-3 rounded-full text-sm font-medium border border-blue-400/20">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 backdrop-blur-sm text-blue-100 px-6 py-3 rounded-full text-sm font-medium border border-blue-400/20"
+              >
                 <Star className="w-4 h-4 text-yellow-400" />
                 الأفضل في جورجيا
-              </div>
+              </motion.div>
               
-              <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+              <motion.h1 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-5xl lg:text-7xl font-bold leading-tight"
+              >
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500">
                   {heroData.title}
                 </span>
@@ -41,11 +63,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
                 <span className="text-white">
                   {heroData.subtitle}
                 </span>
-              </h1>
+              </motion.h1>
               
-              <p className="text-xl lg:text-2xl text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="text-xl lg:text-2xl text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light"
+              >
                 {heroData.description}
-              </p>
+              </motion.p>
             </div>
 
             {/* Professional Features Grid */}
@@ -67,8 +94,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
               </div>
             </div>
 
-            {/* Professional CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            {/* Enhanced CTA Buttons */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            >
               <Button 
                 onClick={onBookNow}
                 size="lg"
@@ -78,13 +110,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
                 <ArrowRight className="w-5 h-5" />
               </Button>
               <Button 
+                onClick={scrollToSearch}
                 variant="outline"
                 size="lg"
                 className="border-2 border-slate-300/30 text-white hover:bg-white/10 px-8 py-4 text-lg rounded-lg backdrop-blur-lg transition-all duration-300 hover:border-white/50"
               >
-                {heroData.secondaryButtonText}
+                <Sparkles className="w-5 h-5 ml-2" />
+                البحث المتقدم
               </Button>
-            </div>
+            </motion.div>
 
             {/* Professional Statistics */}
             <div className="grid grid-cols-3 gap-8 pt-12 border-t border-white/10">
@@ -107,10 +141,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
                 <div className="text-slate-400 text-sm">{heroData.statistics.experience.label}</div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Professional Visual Element */}
-          <div className="relative">
+          {/* Enhanced Visual Element */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative"
+          >
             <div className="relative z-10 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl">
               <div className="text-center space-y-6">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -148,7 +187,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

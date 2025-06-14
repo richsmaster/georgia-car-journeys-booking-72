@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import MainNavigation from '../components/Navigation/MainNavigation';
 import HeroSection from '../components/Hero/HeroSection';
 import ServicesSection from '../components/Services/ServicesSection';
 import TestimonialsSection from '../components/Testimonials/TestimonialsSection';
@@ -62,6 +63,7 @@ const Index = () => {
   if (showBookingForm) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+        <MainNavigation />
         <div className="bg-white/90 backdrop-blur-lg shadow-sm border-b border-slate-200/50 p-4 mb-8">
           <div className="container mx-auto flex items-center justify-between">
             <button

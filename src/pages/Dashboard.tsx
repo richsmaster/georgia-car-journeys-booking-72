@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useCMS } from '../hooks/useCMS';
 import { Button } from '../components/ui/button';
@@ -9,7 +8,7 @@ import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { Settings, Home, ArrowLeft, Save, RefreshCcw } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
-import BookingEditor from '../components/Dashboard/BookingEditor';
+import EnhancedBookingEditor from '../components/Dashboard/EnhancedBookingEditor';
 
 const Dashboard = () => {
   const { data, updateData, resetData, isLoading } = useCMS();
@@ -60,7 +59,7 @@ const Dashboard = () => {
               </Button>
               <h1 className="text-2xl font-bold text-gray-900 flex items-center">
                 <Settings className="w-6 h-6 ml-2" />
-                لوحة التحكم
+                لوحة التحكم المتقدمة
               </h1>
             </div>
             <div className="flex items-center space-x-2">
@@ -85,7 +84,7 @@ const Dashboard = () => {
             <TabsTrigger value="services">الخدمات</TabsTrigger>
             <TabsTrigger value="testimonials">آراء العملاء</TabsTrigger>
             <TabsTrigger value="footer">تذييل الصفحة</TabsTrigger>
-            <TabsTrigger value="booking">إعدادات الحجز</TabsTrigger>
+            <TabsTrigger value="booking">إعدادات الحجز المتقدمة</TabsTrigger>
             <TabsTrigger value="settings">الإعدادات</TabsTrigger>
           </TabsList>
 
@@ -109,9 +108,9 @@ const Dashboard = () => {
             <FooterEditor data={data.footer} onSave={(newData) => handleSave('footer', newData)} />
           </TabsContent>
 
-          {/* Booking Section */}
+          {/* Enhanced Booking Section */}
           <TabsContent value="booking">
-            <BookingEditor data={data.booking} onSave={(newData) => handleSave('booking', newData)} />
+            <EnhancedBookingEditor data={data.booking} onSave={(newData) => handleSave('booking', newData)} />
           </TabsContent>
 
           {/* Settings Section */}

@@ -8,6 +8,7 @@ import { useCMS } from '../../hooks/useCMS';
 
 interface EnhancedSearchBarProps {
   onSearch: (searchData: SearchData) => void;
+  onQuickBook?: (routeId: string) => void;
   compact?: boolean;
 }
 
@@ -21,7 +22,10 @@ export interface SearchData {
   priceRange: [number, number];
 }
 
-const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, compact = false }) => {
+// Export the type for use in other components
+export type EnhancedSearchData = SearchData;
+
+const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuickBook, compact = false }) => {
   const { data: cmsData } = useCMS();
   const [searchData, setSearchData] = useState<SearchData>({
     pickupLocation: '',
@@ -251,6 +255,43 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, compact
             </div>
           )}
         </div>
+
+        {/* Quick Booking Options */}
+        {onQuickBook && (
+          <div className="border-t pt-4">
+            <h4 className="text-sm font-medium mb-3 text-gray-700">حجز سريع للمسارات الشائعة</h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => onQuickBook('tbilisi-batumi')}
+              >
+                تبليسي - باتومي
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => onQuickBook('airport-tbilisi')}
+              >
+                المطار - تبليسي
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => onQuickBook('kazbegi-tour')}
+              >
+                جولة كازبيجي
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => onQuickBook('svaneti-tour')}
+              >
+                جولة سفانيتي
+              </Button>
+            </div>
+          </div>
+        )}
 
         {/* Search Button */}
         <div className="flex justify-center pt-4">

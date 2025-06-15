@@ -20,6 +20,106 @@ interface PricingBreakdown {
   totalCost: number;
 }
 
+// Export the calculation function for use in other components
+export const calculateBookingPrice = (bookingData: BookingData, cmsBookingData: any) => {
+  if (!bookingData.carType || !bookingData.pickupLocation || !bookingData.dropoffLocation) {
+    return {
+      basePrice: 0,
+      locationFactor: 1,
+      nationalityFactor: 1,
+      tourFactor: 1,
+      totalPrice: 0,
+      days: 0,
+      routeType: 'غير محدد',
+      carTypeName: 'غير محدد',
+      notes: ['يرجى تحديد جميع البيانات المطلوبة']
+    };
+  }
+
+  const car = cmsBookingData.carTypes.find((c: any) => c.id === bookingData.carType);
+  if (!car) return {
+    basePrice: 0,
+    locationFactor: 1,
+    nationalityFactor: 1,
+    tourFactor: 1,
+    totalPrice: 0,
+    days: 0,
+    routeType: 'غير محدد',
+    carTypeName: 'غير محدد',
+    notes: ['نوع السيارة غير موجود']
+  };
+
+  // Calculate days
+  const totalDays = bookingData.pickupDate && bookingData.dropoffDate
+    ? Math.max(1, Math.ceil((new Date(bookingData.dropoffDate).getTime() - new Date(bookingData.pickupDate).getTime()) / (1000 * 60 * 60 * 24)))
+    : 1;
+
+  // Get pickup and dropoff locations
+  const allLocations = [...cmsBookingData.cities, ...cmsBookingData.airports];
+  const pickupLocation = allLocations.find((l: any) => l.id === bookingData.pickupLocation);
+  const dropoffLocation = allLocations.find((l: any) => l.id === bookingData.dropoffLocation);
+
+  // Determine route type
+  const pickupCity = pickupLocation?.city || pickupLocation?.id;
+  const dropoffCity = dropoffLocation?.city || dropoffLocation?.id;
+  const isSameCity = pickupCity === dropoffCity;
+  const routeType = isSameCity ? 'نفس المدينة' : 'مدن مختلفة';
+
+  // Base price calculation
+  const basePrice = car.tourDailyPrice * totalDays;
+
+  // Apply factors
+  let locationFactor = 1;
+  let nationalityFactor = 1;
+  let tourFactor = 1;
+
+  // Location factor
+  if (!isSameCity) {
+    locationFactor = 1.2; // 20% increase for different cities
+  }
+
+  // Driver nationality factor
+  if (bookingData.driverNationality) {
+    const nationality = cmsBookingData.driverNationalities?.find((n: any) => n.id === bookingData.driverNationality);
+    if (nationality) {
+      nationalityFactor = nationality.factor;
+    }
+  }
+
+  // Tour type factor
+  if (bookingData.tourType) {
+    const tourType = cmsBookingData.tourTypes?.find((t: any) => t.id === bookingData.tourType);
+    if (tourType) {
+      tourFactor = tourType.factor;
+    }
+  }
+
+  const totalPrice = Math.round(basePrice * locationFactor * nationalityFactor * tourFactor);
+
+  const notes = [];
+  if (!isSameCity) {
+    notes.push('إضافة 20% لاختلاف المدن');
+  }
+  if (nationalityFactor !== 1) {
+    notes.push(`معامل جنسية السائق: ${nationalityFactor}`);
+  }
+  if (tourFactor !== 1) {
+    notes.push(`معامل نوع الجولة: ${tourFactor}`);
+  }
+
+  return {
+    basePrice,
+    locationFactor,
+    nationalityFactor,
+    tourFactor,
+    totalPrice,
+    days: totalDays,
+    routeType,
+    carTypeName: car.name,
+    notes
+  };
+};
+
 const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
   const { data: cmsData } = useCMS();
 
@@ -60,9 +160,8 @@ const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
     const dropoffLocation = allLocations.find(l => l.id === bookingData.dropoffLocation);
 
     // Determine if same city or different cities
-    // For airports, use their city property; for cities, use their own id
-    const pickupCity = 'city' in pickupLocation! ? pickupLocation.city : pickupLocation!.id;
-    const dropoffCity = 'city' in dropoffLocation! ? dropoffLocation.city : dropoffLocation!.id;
+    const pickupCity = pickupLocation?.city || pickupLocation?.id;
+    const dropoffCity = dropoffLocation?.city || dropoffLocation?.id;
     const isSameCity = pickupCity === dropoffCity;
 
     // Calculate reception and departure costs
@@ -79,8 +178,7 @@ const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
     const mandatoryTourCost = hasMandatoryTour ? car.tourDailyPrice : 0;
 
     // Calculate regular tours cost
-    // Note: This will be enhanced when tour selection is implemented
-    const totalTours = totalDays; // For now, assume 1 tour per day
+    const totalTours = totalDays;
     const toursCost = car.tourDailyPrice * totalTours;
 
     const totalCost = receptionCost + departureCost + toursCost + mandatoryTourCost;

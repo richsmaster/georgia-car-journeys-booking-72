@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BookingData } from '../../types/booking';
 import { useCMS } from '../../hooks/useCMS';
@@ -8,6 +9,7 @@ import Step3DriverPreferences from './Step3DriverPreferences';
 import Step4PersonalInfo from './Step4PersonalInfo';
 import PriceSummary from './PriceSummary';
 import { useToast } from '@/hooks/use-toast';
+import { calculatePricing } from '../../lib/pricing';
 
 const BookingForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -17,9 +19,8 @@ const BookingForm: React.FC = () => {
     pickupDate: '',
     dropoffDate: '',
     carType: '',
-    tourType: '',
-    driverNationality: '',
-    driverLanguages: [],
+    hasPhoneLine: false,
+    hasTravelInsurance: false,
     customerName: '',
     customerPhone: '',
     customerEmail: '',
@@ -35,54 +36,12 @@ const BookingForm: React.FC = () => {
     setBookingData(prev => ({ ...prev, ...data }));
   };
 
-  const calculateFinalPrice = () => {
-    if (!bookingData.carType || !bookingData.pickupLocation || !bookingData.dropoffLocation) {
-      return 0;
-    }
-
-    const car = cmsData.booking.carTypes.find(c => c.id === bookingData.carType);
-    if (!car) return 0;
-
-    let tourDailyPrice = car.tourDailyPrice;
-
-    // حساب الأيام بطريقة صحيحة - من تاريخ الوصول إلى تاريخ المغادرة شاملاً
-    const days = bookingData.pickupDate && bookingData.dropoffDate
-      ? Math.max(1, Math.floor((new Date(bookingData.dropoffDate).getTime() - new Date(bookingData.pickupDate).getTime()) / (1000 * 60 * 60 * 24)) + 1)
-      : 1;
-
-    // Location factors
-    const allLocations = [...cmsData.booking.cities, ...cmsData.booking.airports];
-    const pickupLocation = allLocations.find(l => l.id === bookingData.pickupLocation);
-    const dropoffLocation = allLocations.find(l => l.id === bookingData.dropoffLocation);
-    
-    const locationFactor = Math.min(
-      (pickupLocation?.factor || 1) + (dropoffLocation?.factor || 1), 
-      2.5
-    );
-
-    // Driver nationality factor
-    const driverNationality = cmsData.booking.driverNationalities.find(d => d.id === bookingData.driverNationality);
-    const nationalityFactor = driverNationality?.factor || 1;
-
-    // Tour type factor
-    const tourType = cmsData.booking.tourTypes.find(t => t.id === bookingData.tourType);
-    const tourFactor = tourType?.factor || 1;
-
-    return Math.round(tourDailyPrice * days * locationFactor * nationalityFactor * tourFactor);
-  };
-
   const generateWhatsAppMessage = () => {
     const allLocations = [...cmsData.booking.cities, ...cmsData.booking.airports];
     const pickupLocation = allLocations.find(l => l.id === bookingData.pickupLocation);
     const dropoffLocation = allLocations.find(l => l.id === bookingData.dropoffLocation);
     const car = cmsData.booking.carTypes.find(c => c.id === bookingData.carType);
-    const driverNationality = cmsData.booking.driverNationalities.find(d => d.id === bookingData.driverNationality);
-    const tourType = cmsData.booking.tourTypes.find(t => t.id === bookingData.tourType);
-
-    const languageNames = bookingData.driverLanguages.map(langId => {
-      const language = cmsData.booking.languages.find(l => l.id === langId);
-      return language?.name || langId;
-    }).join(', ');
+    const pricing = calculatePricing(bookingData, cmsData);
 
     const message = `🚗 *طلب حجز سيارة في جورجيا*
 
@@ -91,14 +50,14 @@ const BookingForm: React.FC = () => {
 - إلى: ${dropoffLocation?.name}
 - تاريخ الانطلاق: ${new Date(bookingData.pickupDate).toLocaleString('ar')}
 - تاريخ العودة: ${new Date(bookingData.dropoffDate).toLocaleString('ar')}
+- المدة: ${pricing.totalDays} أيام
 
 🚙 *تفاصيل السيارة:*
 - نوع السيارة: ${car?.name}
-${tourType ? `- نوع الجولة: ${tourType.name}` : ''}
 
-👨‍✈️ *تفضيلات السائق:*
-- الجنسية: ${driverNationality?.name}
-- اللغات: ${languageNames}
+🛡️ *الخدمات الإضافية:*
+${bookingData.hasPhoneLine ? `- خط الاتصال: ${pricing.phoneLineCost} ${cmsData.booking.settings.currencySymbol}` : ''}
+${bookingData.hasTravelInsurance ? `- تأمين السفر: ${pricing.insuranceCost} ${cmsData.booking.settings.currencySymbol}` : ''}
 
 👤 *بيانات العميل:*
 - الاسم: ${bookingData.customerName}
@@ -107,7 +66,7 @@ ${tourType ? `- نوع الجولة: ${tourType.name}` : ''}
 - عدد الركاب: ${bookingData.passengers}
 ${bookingData.specialRequests ? `- طلبات خاصة: ${bookingData.specialRequests}` : ''}
 
-💰 *السعر الإجمالي: ${cmsData.booking.settings.currencySymbol}${calculateFinalPrice()}*
+💰 *السعر الإجمالي: ${cmsData.booking.settings.currencySymbol}${pricing.totalCost}*
 
 نرجو تأكيد الحجز وإرسال التفاصيل النهائية.`;
 
@@ -115,8 +74,8 @@ ${bookingData.specialRequests ? `- طلبات خاصة: ${bookingData.specialReq
   };
 
   const handleSubmit = () => {
-    const finalPrice = calculateFinalPrice();
-    const updatedBookingData = { ...bookingData, totalPrice: finalPrice };
+    const pricing = calculatePricing(bookingData, cmsData);
+    const updatedBookingData = { ...bookingData, totalPrice: pricing.totalCost };
     setBookingData(updatedBookingData);
 
     // Generate WhatsApp URL using CMS settings

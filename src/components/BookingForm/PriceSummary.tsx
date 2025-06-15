@@ -51,12 +51,12 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
         )}
 
         {bookingData.citiesToVisit && bookingData.citiesToVisit.length > 0 && (
-            <div className="flex justify-between text-sm pt-2 border-t mt-2">
-                <span>المدن المختارة:</span>
-                <span className="text-left max-w-[60%]">
-                    {bookingData.citiesToVisit.map(cityId => getLocationName(cityId)).join('، ')}
-                </span>
-            </div>
+          <div className="flex justify-between text-sm pt-2 border-t mt-2">
+            <span>المدن المختارة:</span>
+            <span className="text-left max-w-[60%]">
+              {bookingData.citiesToVisit.map(cityId => getLocationName(cityId)).join('، ')}
+            </span>
+          </div>
         )}
 
         {bookingData.carType && (
@@ -70,6 +70,27 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
           <div className="flex justify-between text-sm">
             <span>المدة:</span>
             <span>{pricing.totalDays} أيام</span>
+          </div>
+        )}
+
+        {bookingData.passengers && (
+          <div className="flex justify-between text-sm">
+            <span>عدد الركاب:</span>
+            <span>{bookingData.passengers}</span>
+          </div>
+        )}
+
+        {bookingData.hasPhoneLine && (
+          <div className="flex justify-between text-sm">
+            <span>خط الاتصال:</span>
+            <span>{pricing.phoneLineCost} {cmsData.booking.settings.currencySymbol}</span>
+          </div>
+        )}
+
+        {bookingData.hasTravelInsurance && (
+          <div className="flex justify-between text-sm">
+            <span>تأمين السفر:</span>
+            <span>{pricing.insuranceCost} {cmsData.booking.settings.currencySymbol}</span>
           </div>
         )}
 

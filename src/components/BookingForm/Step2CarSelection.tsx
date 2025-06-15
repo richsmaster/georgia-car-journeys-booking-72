@@ -21,8 +21,6 @@ const Step2CarSelection: React.FC<Step2CarSelectionProps> = ({
 }) => {
   const { data: cmsData } = useCMS();
   const carTypes = cmsData.booking.carTypes.filter(car => car.enabled).sort((a, b) => a.order - b.order);
-  const tourTypes = cmsData.booking.tourTypes.filter(tour => tour.enabled).sort((a, b) => a.order - b.order);
-  const currencySymbol = cmsData.booking.settings.currencySymbol;
 
   const isFormValid = () => {
     return bookingData.carType;
@@ -33,7 +31,7 @@ const Step2CarSelection: React.FC<Step2CarSelectionProps> = ({
       <CardHeader className="text-center">
         <CardTitle className="text-2xl text-blue-600 flex items-center justify-center gap-2">
           <Car className="w-6 h-6" />
-          اختر نوع السيارة والجولة
+          اختر نوع السيارة
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -55,36 +53,11 @@ const Step2CarSelection: React.FC<Step2CarSelectionProps> = ({
                   <h4 className="font-semibold text-lg">{car.name}</h4>
                   <p className="text-sm text-gray-600 mb-2">{car.nameEn}</p>
                   <p className="text-sm text-gray-600 mb-2">{car.capacity.min}-{car.capacity.max} أشخاص</p>
-                  <p className="text-blue-600 font-bold">{currencySymbol}{car.tourDailyPrice}/يوم</p>
                   <ul className="text-xs text-gray-600 mt-2 space-y-1">
                     {car.features.map((feature, index) => (
                       <li key={index}>• {feature}</li>
                     ))}
                   </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold mb-4">نوع الجولة (اختياري)</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {tourTypes.map(tour => (
-              <div
-                key={tour.id}
-                className={`p-3 border rounded-lg cursor-pointer transition-all ${
-                  bookingData.tourType === tour.id
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-blue-300'
-                }`}
-                onClick={() => updateBookingData({ 
-                  tourType: bookingData.tourType === tour.id ? '' : tour.id 
-                })}
-              >
-                <div className="text-center">
-                  <h4 className="font-medium">{tour.name}</h4>
-                  <p className="text-sm text-gray-600">إضافة {Math.round((tour.factor - 1) * 100)}%</p>
                 </div>
               </div>
             ))}

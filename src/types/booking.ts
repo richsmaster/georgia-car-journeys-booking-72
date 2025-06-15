@@ -9,11 +9,10 @@ export interface BookingData {
   
   // Step 2: Car Selection
   carType: string;
-  tourType?: string;
   
-  // Step 3: Driver Preferences
-  driverNationality: string;
-  driverLanguages: string[];
+  // Step 3: Additional Services
+  hasPhoneLine?: boolean;
+  hasTravelInsurance?: boolean;
   
   // Step 4: Personal Info
   customerName: string;

@@ -5,10 +5,10 @@ export interface PricingBreakdown {
   receptionCost: number;
   departureCost: number;
   toursCost: number;
-  mandatoryTourCost: number;
+  phoneLineCost: number;
+  insuranceCost: number;
   totalDays: number;
   totalTours: number;
-  hasMandatoryTour: boolean;
   totalCost: number;
 }
 
@@ -17,10 +17,10 @@ export const calculatePricing = (bookingData: BookingData, cmsData: any): Pricin
     receptionCost: 0,
     departureCost: 0,
     toursCost: 0,
-    mandatoryTourCost: 0,
+    phoneLineCost: 0,
+    insuranceCost: 0,
     totalDays: 0,
     totalTours: 0,
-    hasMandatoryTour: false,
     totalCost: 0,
   };
 
@@ -60,22 +60,23 @@ export const calculatePricing = (bookingData: BookingData, cmsData: any): Pricin
     ? (car.airportTransfer?.sameCity?.departure || 0)
     : (car.airportTransfer?.differentCity?.departure || 0);
 
-  const hasMandatoryTour = !isSameCity && cmsData.booking.settings.mandatoryTourWhenDifferentCity;
-  const mandatoryTourCost = hasMandatoryTour ? (car.tourDailyPrice || 0) : 0;
-
   const totalTours = totalDays;
   const toursCost = (car.tourDailyPrice || 0) * totalTours;
 
-  const totalCost = Math.round(receptionCost + departureCost + toursCost + mandatoryTourCost);
+  // حساب تكلفة الخدمات الإضافية
+  const phoneLineCost = bookingData.hasPhoneLine ? (bookingData.passengers || 1) * 15 : 0;
+  const insuranceCost = bookingData.hasTravelInsurance ? (bookingData.passengers || 1) * 5 * totalDays : 0;
+
+  const totalCost = Math.round(receptionCost + departureCost + toursCost + phoneLineCost + insuranceCost);
 
   return {
     receptionCost,
     departureCost,
     toursCost,
-    mandatoryTourCost,
+    phoneLineCost,
+    insuranceCost,
     totalDays,
     totalTours,
-    hasMandatoryTour,
     totalCost,
   };
 };

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -43,14 +42,13 @@ const PriceCalculator: React.FC = () => {
     try {
       const result = calculateBookingPrice({
         ...calculationData,
-        guests: 1,
+        passengers: 1,
         specialRequests: '',
-        contactInfo: {
-          name: 'Test',
-          email: 'test@test.com',
-          phone: '123456789',
-          whatsapp: '123456789'
-        }
+        customerName: 'Test',
+        customerEmail: 'test@test.com',
+        customerPhone: '123456789',
+        driverLanguages: [],
+        totalPrice: 0
       }, cmsData.booking);
 
       setCalculationResult(result);

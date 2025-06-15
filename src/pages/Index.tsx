@@ -45,7 +45,7 @@ const Index = () => {
     if (searchData.pickupDate) params.set('pickupDate', searchData.pickupDate);
     if (searchData.dropoffDate) params.set('dropoffDate', searchData.dropoffDate);
     if (searchData.carType) params.set('carType', searchData.carType);
-    if (searchData.estimatedPrice > 0) params.set('estimatedPrice', searchData.estimatedPrice.toString());
+    if (searchData.priceRange && searchData.priceRange[1] > 0) params.set('estimatedPrice', searchData.priceRange[1].toString());
 
     navigate(`/search?${params.toString()}`);
   };

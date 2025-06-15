@@ -59,7 +59,7 @@ export const calculateBookingPrice = (bookingData: BookingData, cmsBookingData: 
   const pickupLocation = allLocations.find((l: any) => l.id === bookingData.pickupLocation);
   const dropoffLocation = allLocations.find((l: any) => l.id === bookingData.dropoffLocation);
 
-  // Determine route type
+  // Determine route type - fix the city property access
   const pickupCity = pickupLocation?.city || pickupLocation?.id;
   const dropoffCity = dropoffLocation?.city || dropoffLocation?.id;
   const isSameCity = pickupCity === dropoffCity;

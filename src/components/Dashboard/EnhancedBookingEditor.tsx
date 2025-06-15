@@ -85,43 +85,26 @@ const EnhancedBookingEditor: React.FC<EnhancedBookingEditorProps> = ({ data, onS
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">إدارة بيانات الحجز المتقدمة</h2>
-        <div className="flex gap-2">
-          <Button
-            onClick={() => setActiveTab('notifications')}
-            variant="outline"
-            size="sm"
-          >
-            <Bell className="w-4 h-4 ml-2" />
-            التنبيهات
-          </Button>
-          <Button
-            onClick={() => setActiveTab('history')}
-            variant="outline"
-            size="sm"
-          >
-            <History className="w-4 h-4 ml-2" />
-            السجل
-          </Button>
-          <Button
-            onClick={() => setActiveTab('backup')}
-            variant="outline"
-            size="sm"
-          >
-            <Shield className="w-4 h-4 ml-2" />
-            النسخ الاحتياطية
-          </Button>
-        </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="cities">المدن</TabsTrigger>
           <TabsTrigger value="cars">السيارات</TabsTrigger>
           <TabsTrigger value="airports">المطارات</TabsTrigger>
           <TabsTrigger value="settings">الإعدادات</TabsTrigger>
-          <TabsTrigger value="notifications">التنبيهات</TabsTrigger>
-          <TabsTrigger value="history">السجل</TabsTrigger>
-          <TabsTrigger value="backup">النسخ الاحتياطية</TabsTrigger>
+          <TabsTrigger value="notifications">
+            <Bell className="w-4 h-4 md:mr-2" />
+            <span className="hidden md:inline">التنبيهات</span>
+          </TabsTrigger>
+          <TabsTrigger value="history">
+            <History className="w-4 h-4 md:mr-2" />
+            <span className="hidden md:inline">السجل</span>
+          </TabsTrigger>
+          <TabsTrigger value="backup">
+            <Shield className="w-4 h-4 md:mr-2" />
+            <span className="hidden md:inline">النسخ الاحتياطية</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="cities">

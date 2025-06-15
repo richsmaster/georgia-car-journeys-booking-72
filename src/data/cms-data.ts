@@ -1,4 +1,3 @@
-
 import { CMSData } from '../types/cms';
 
 export const defaultCMSData: CMSData = {
@@ -142,7 +141,8 @@ export const defaultCMSData: CMSData = {
     primaryColor: '#1e40af',
     secondaryColor: '#fbbf24',
     accentColor: '#10b981',
-    fontFamily: 'Tajawal'
+    fontFamily: 'Tajawal',
+    mapboxToken: 'pk.eyJ1IjoiYWNhZGVteWZvY3VzODQ3IiwiYSI6ImNtYnd5bzZqMjBxMjAybXF3amc5cWY3dm8ifQ.NCWRSeWpKUfZv8YLFh-E0w'
   },
   booking: {
     cities: [

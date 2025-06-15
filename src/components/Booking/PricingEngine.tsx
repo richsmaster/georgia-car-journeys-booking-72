@@ -59,9 +59,18 @@ export const calculateBookingPrice = (bookingData: BookingData, cmsBookingData: 
   const pickupLocation = allLocations.find((l: any) => l.id === bookingData.pickupLocation);
   const dropoffLocation = allLocations.find((l: any) => l.id === bookingData.dropoffLocation);
 
-  // Determine route type - fix the city property access
-  const pickupCity = pickupLocation?.city || pickupLocation?.id;
-  const dropoffCity = dropoffLocation?.city || dropoffLocation?.id;
+  // Determine route type - properly handle City vs Airport types
+  const getLocationCity = (location: any) => {
+    // If it's an airport, use the city property
+    if (location && 'city' in location) {
+      return location.city;
+    }
+    // If it's a city, use the id directly
+    return location?.id;
+  };
+
+  const pickupCity = getLocationCity(pickupLocation);
+  const dropoffCity = getLocationCity(dropoffLocation);
   const isSameCity = pickupCity === dropoffCity;
   const routeType = isSameCity ? 'نفس المدينة' : 'مدن مختلفة';
 
@@ -159,9 +168,18 @@ const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
     const pickupLocation = allLocations.find(l => l.id === bookingData.pickupLocation);
     const dropoffLocation = allLocations.find(l => l.id === bookingData.dropoffLocation);
 
-    // Determine if same city or different cities
-    const pickupCity = pickupLocation?.city || pickupLocation?.id;
-    const dropoffCity = dropoffLocation?.city || dropoffLocation?.id;
+    // Determine if same city or different cities - properly handle City vs Airport types
+    const getLocationCity = (location: any) => {
+      // If it's an airport, use the city property
+      if (location && 'city' in location) {
+        return location.city;
+      }
+      // If it's a city, use the id directly
+      return location?.id;
+    };
+
+    const pickupCity = getLocationCity(pickupLocation);
+    const dropoffCity = getLocationCity(dropoffLocation);
     const isSameCity = pickupCity === dropoffCity;
 
     // Calculate reception and departure costs

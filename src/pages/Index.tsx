@@ -1,9 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import MainNavigation from '../components/Navigation/MainNavigation';
 import HeroSection from '../components/Hero/HeroSection';
 import ServicesSection from '../components/Services/ServicesSection';
 import TestimonialsSection from '../components/Testimonials/TestimonialsSection';
+import BestToursSection from '../components/Tours/BestToursSection';
 import Footer from '../components/Footer/Footer';
 import BookingForm from '../components/BookingForm/BookingForm';
 import InteractiveMap from '../components/Map/InteractiveMap';
@@ -109,7 +111,7 @@ const Index = () => {
       <HeroSection onBookNow={handleBookNow} />
       
       {/* Enhanced Search Section with Interactive Map */}
-      <section className="py-20 relative bg-gradient-to-r from-slate-50 to-white">
+      <section id="search-section" className="py-20 relative bg-gradient-to-r from-slate-50 to-white">
         <div className="container mx-auto px-4 relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -161,22 +163,22 @@ const Index = () => {
             <div className="text-center group">
               <div className="bg-white/70 backdrop-blur-lg rounded-xl p-8 shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300">
                 <MapPin className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">15+</h3>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">13+</h3>
                 <p className="text-slate-600">مدينة جورجية</p>
               </div>
             </div>
             <div className="text-center group">
               <div className="bg-white/70 backdrop-blur-lg rounded-xl p-8 shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300">
                 <Clock className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">24/7</h3>
-                <p className="text-slate-600">خدمة العملاء</p>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">11</h3>
+                <p className="text-slate-600">سنة من الخبرة</p>
               </div>
             </div>
             <div className="text-center group">
               <div className="bg-white/70 backdrop-blur-lg rounded-xl p-8 shadow-lg border border-slate-200/50 hover:shadow-xl transition-all duration-300">
                 <Star className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">4.9</h3>
-                <p className="text-slate-600">تقييم العملاء</p>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">876+</h3>
+                <p className="text-slate-600">عميل سعيد</p>
               </div>
             </div>
           </motion.div>
@@ -184,6 +186,7 @@ const Index = () => {
       </section>
 
       <ServicesSection />
+      <BestToursSection />
       <TestimonialsSection />
       <Footer />
     </div>

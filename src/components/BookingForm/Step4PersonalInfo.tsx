@@ -1,9 +1,9 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { BookingData } from '../../types/booking';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { User } from 'lucide-react';
+import { User, Upload, FileText } from 'lucide-react';
 
 interface Step4PersonalInfoProps {
   bookingData: BookingData;
@@ -18,11 +18,27 @@ const Step4PersonalInfo: React.FC<Step4PersonalInfoProps> = ({
   onSubmit,
   onPrev
 }) => {
+  const [ticketFile, setTicketFile] = useState<File | null>(null);
+  const [passportFiles, setPassportFiles] = useState<File[]>([]);
+  const [passportOption, setPassportOption] = useState<'single' | 'multiple'>('single');
+
   const isFormValid = () => {
     return bookingData.customerName && 
            bookingData.customerPhone && 
            bookingData.customerEmail && 
            bookingData.passengers;
+  };
+
+  const handleTicketUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setTicketFile(file);
+    }
+  };
+
+  const handlePassportUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    setPassportFiles(files);
   };
 
   return (
@@ -71,7 +87,7 @@ const Step4PersonalInfo: React.FC<Step4PersonalInfoProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">عدد الركاب *</label>
+            <label className="block text-sm font-medium mb-2">عدد الأشخاص *</label>
             <input
               type="number"
               min="1"
@@ -84,8 +100,72 @@ const Step4PersonalInfo: React.FC<Step4PersonalInfoProps> = ({
           </div>
         </div>
 
+        {/* File Upload Section */}
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+              <Upload className="w-4 h-4" />
+              رفع التذكرة
+            </label>
+            <input
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+              onChange={handleTicketUpload}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            {ticketFile && (
+              <p className="text-sm text-green-600 mt-2">تم رفع الملف: {ticketFile.name}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+              <FileText className="w-4 h-4" />
+              جواز السفر (اختياري)
+            </label>
+            <div className="space-y-3">
+              <div className="flex gap-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="passportOption"
+                    value="single"
+                    checked={passportOption === 'single'}
+                    onChange={(e) => setPassportOption(e.target.value as 'single')}
+                    className="mr-2"
+                  />
+                  جواز سفر واحد
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="passportOption"
+                    value="multiple"
+                    checked={passportOption === 'multiple'}
+                    onChange={(e) => setPassportOption(e.target.value as 'multiple')}
+                    className="mr-2"
+                  />
+                  لجميع الأشخاص
+                </label>
+              </div>
+              <input
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+                multiple={passportOption === 'multiple'}
+                onChange={handlePassportUpload}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              {passportFiles.length > 0 && (
+                <div className="text-sm text-green-600">
+                  تم رفع {passportFiles.length} ملف(ات)
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
         <div>
-          <label className="block text-sm font-medium mb-2">طلبات خاصة (اختياري)</label>
+          <label className="block text-sm font-medium mb-2">طلب خاص (اختياري)</label>
           <textarea
             value={bookingData.specialRequests}
             onChange={(e) => updateBookingData({ specialRequests: e.target.value })}

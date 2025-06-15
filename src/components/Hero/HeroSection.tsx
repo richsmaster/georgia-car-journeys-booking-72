@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '../ui/button';
-import { Car, Star, Award, Clock, ArrowRight, MapPin, Sparkles } from 'lucide-react';
+import { Car, Star, Award, Clock, ArrowRight, MapPin, Sparkles, CreditCard, Shield } from 'lucide-react';
 import { useCMS } from '../../hooks/useCMS';
 import { motion } from 'framer-motion';
 
@@ -45,10 +45,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 backdrop-blur-sm text-blue-100 px-6 py-3 rounded-full text-sm font-medium border border-blue-400/20"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600/20 to-emerald-600/20 backdrop-blur-sm text-green-100 px-6 py-3 rounded-full text-sm font-medium border border-green-400/20"
               >
-                <Star className="w-4 h-4 text-yellow-400" />
-                الأفضل في جورجيا
+                <CreditCard className="w-4 h-4 text-green-400" />
+                الدفع بعد الوصول إلى جورجيا
               </motion.div>
               
               <motion.h1 
@@ -89,9 +89,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
                 <p className="text-slate-400 text-sm">خبرة واسعة في الطرق الجورجية</p>
               </div>
               <div className="group bg-white/5 backdrop-blur-lg rounded-xl p-6 text-center border border-white/10 hover:bg-white/10 transition-all duration-300">
-                <Clock className="w-10 h-10 text-green-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">خدمة 24/7</h3>
-                <p className="text-slate-400 text-sm">دعم مستمر طوال رحلتك</p>
+                <Shield className="w-10 h-10 text-green-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white mb-2">دفع آمن</h3>
+                <p className="text-slate-400 text-sm">ادفع بعد الوصول لجورجيا</p>
               </div>
             </div>
 
@@ -114,37 +114,37 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
                 onClick={scrollToSearch}
                 variant="outline"
                 size="lg"
-                className="border-2 border-slate-300/30 text-white hover:bg-white/10 px-8 py-4 text-lg rounded-lg backdrop-blur-lg transition-all duration-300 hover:border-white/50"
+                className="border-2 border-slate-300/30 text-blue-400 hover:bg-white/10 px-8 py-4 text-lg rounded-lg backdrop-blur-lg transition-all duration-300 hover:border-blue-400/50"
               >
                 <Sparkles className="w-5 h-5 ml-2" />
                 البحث المتقدم
               </Button>
             </motion.div>
 
-            {/* Professional Statistics */}
+            {/* Updated Statistics */}
             <div className="grid grid-cols-3 gap-8 pt-12 border-t border-white/10">
               <div className="text-center">
                 <div className="text-3xl lg:text-4xl font-bold text-yellow-400 mb-2">
-                  {heroData.statistics.customers.value}
+                  876+
                 </div>
-                <div className="text-slate-400 text-sm">{heroData.statistics.customers.label}</div>
+                <div className="text-slate-400 text-sm">عميل سعيد</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl lg:text-4xl font-bold text-blue-400 mb-2">
-                  {heroData.statistics.cities.value}
+                  13+
                 </div>
-                <div className="text-slate-400 text-sm">{heroData.statistics.cities.label}</div>
+                <div className="text-slate-400 text-sm">مدينة جورجية</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl lg:text-4xl font-bold text-green-400 mb-2">
-                  {heroData.statistics.experience.value}
+                  11
                 </div>
-                <div className="text-slate-400 text-sm">{heroData.statistics.experience.label}</div>
+                <div className="text-slate-400 text-sm">سنة من الخبرة</div>
               </div>
             </div>
           </motion.div>
 
-          {/* Enhanced Visual Element - Without Prices */}
+          {/* Enhanced Visual Element - Best Trips */}
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -156,26 +156,26 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onBookNow }) => {
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Car className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">أفضل الرحلات</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-center bg-white/5 rounded-lg p-4 border border-white/10">
-                    <div className="flex items-center gap-3">
-                      <MapPin className="w-4 h-4 text-blue-400" />
-                      <span className="text-slate-300">من تبليسي إلى باتومي</span>
+                <h3 className="text-2xl font-bold text-white mb-4">أفضل الرحلات من تبليسي</h3>
+                <div className="space-y-3">
+                  {[
+                    'إلى جبال القوقاز',
+                    'إلى باكورياني', 
+                    'إلى برجومي',
+                    'إلى داشباش',
+                    'إلى كاخيتي',
+                    'إلى متسخيتا',
+                    'إلى كازبيكي',
+                    'إلى باتومي',
+                    'إلى كوتايسي'
+                  ].map((destination, index) => (
+                    <div key={index} className="flex items-center justify-center bg-white/5 rounded-lg p-3 border border-white/10">
+                      <div className="flex items-center gap-3">
+                        <MapPin className="w-4 h-4 text-blue-400" />
+                        <span className="text-slate-300 text-sm">{destination}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center justify-center bg-white/5 rounded-lg p-4 border border-white/10">
-                    <div className="flex items-center gap-3">
-                      <MapPin className="w-4 h-4 text-blue-400" />
-                      <span className="text-slate-300">جولة في كازبيجي</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center bg-white/5 rounded-lg p-4 border border-white/10">
-                    <div className="flex items-center gap-3">
-                      <MapPin className="w-4 h-4 text-blue-400" />
-                      <span className="text-slate-300">رحلة إلى سفانيتي</span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
                 <div className="flex items-center justify-center space-x-1 pt-4">
                   {[1,2,3,4,5].map(star => (

@@ -124,7 +124,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, showFilters = true }) =
           <div className="space-y-2">
             <label className="text-sm font-medium flex items-center gap-2">
               <Calendar className="w-4 h-4 text-orange-600" />
-              تaريخ العودة
+              تاريخ العودة
             </label>
             <Input
               type="datetime-local"
@@ -163,7 +163,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, showFilters = true }) =
                     <option value="">جميع الأنواع</option>
                     {carTypes.map(car => (
                       <option key={car.id} value={car.id}>
-                        {car.name} - ${car.basePrice}/يوم
+                        {car.name} - ${car.tourDailyPrice}/يوم
                       </option>
                     ))}
                   </select>

@@ -55,14 +55,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, showFilters = true }) =
               onChange={(e) => updateSearchData('pickupLocation', e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <option value="">اختر الموقع</option>
-              <optgroup label="المدن">
-                {cities.map(city => (
-                  <option key={city.id} value={city.id}>
-                    {city.name}
-                  </option>
-                ))}
-              </optgroup>
+              <option value="">اختر مطار الانطلاق</option>
               <optgroup label="المطارات">
                 {airports.map(airport => (
                   <option key={airport.id} value={airport.id}>
@@ -84,14 +77,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, showFilters = true }) =
               onChange={(e) => updateSearchData('dropoffLocation', e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <option value="">اختر الموقع</option>
-              <optgroup label="المدن">
-                {cities.map(city => (
-                  <option key={city.id} value={city.id}>
-                    {city.name}
-                  </option>
-                ))}
-              </optgroup>
+              <option value="">اختر مطار العودة</option>
               <optgroup label="المطارات">
                 {airports.map(airport => (
                   <option key={airport.id} value={airport.id}>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BookingData } from '../../types/booking';
 import { useCMS } from '../../hooks/useCMS';
@@ -45,14 +44,7 @@ const Step1Location: React.FC<Step1LocationProps> = ({
               onChange={(e) => updateBookingData({ pickupLocation: e.target.value })}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <option value="">اختر نقطة الانطلاق</option>
-              <optgroup label="المدن">
-                {cities.map(city => (
-                  <option key={city.id} value={city.id}>
-                    {city.name} - {city.nameEn}
-                  </option>
-                ))}
-              </optgroup>
+              <option value="">اختر مطار الانطلاق</option>
               <optgroup label="المطارات">
                 {airports.map(airport => (
                   <option key={airport.id} value={airport.id}>
@@ -70,14 +62,7 @@ const Step1Location: React.FC<Step1LocationProps> = ({
               onChange={(e) => updateBookingData({ dropoffLocation: e.target.value })}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <option value="">اختر نقطة العودة</option>
-              <optgroup label="المدن">
-                {cities.map(city => (
-                  <option key={city.id} value={city.id}>
-                    {city.name} - {city.nameEn}
-                  </option>
-                ))}
-              </optgroup>
+              <option value="">اختر مطار العودة</option>
               <optgroup label="المطارات">
                 {airports.map(airport => (
                   <option key={airport.id} value={airport.id}>
@@ -108,6 +93,34 @@ const Step1Location: React.FC<Step1LocationProps> = ({
               onChange={(e) => updateBookingData({ dropoffDate: e.target.value })}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-sm font-medium">المدن المراد زيارتها (اختياري)</label>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 border rounded-lg">
+            {cities.map(city => (
+              <div key={city.id} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id={`city-${city.id}`}
+                  value={city.id}
+                  checked={!!bookingData.citiesToVisit?.includes(city.id)}
+                  onChange={(e) => {
+                    const cityId = e.target.value;
+                    const currentCities = bookingData.citiesToVisit || [];
+                    const newCities = e.target.checked
+                      ? [...currentCities, cityId]
+                      : currentCities.filter(id => id !== cityId);
+                    updateBookingData({ citiesToVisit: newCities });
+                  }}
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <label htmlFor={`city-${city.id}`} className="text-sm font-medium text-gray-700">
+                  {city.name}
+                </label>
+              </div>
+            ))}
           </div>
         </div>
 

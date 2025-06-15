@@ -5,6 +5,7 @@ export interface BookingData {
   dropoffLocation: string;
   pickupDate: string;
   dropoffDate: string;
+  citiesToVisit?: string[];
   
   // Step 2: Car Selection
   carType: string;

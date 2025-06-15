@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BookingData } from '../../types/booking';
 import { useCMS } from '../../hooks/useCMS';
@@ -85,6 +86,15 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
             <span>إلى:</span>
             <span>{getLocationName(bookingData.dropoffLocation)}</span>
           </div>
+        )}
+
+        {bookingData.citiesToVisit && bookingData.citiesToVisit.length > 0 && (
+            <div className="flex justify-between text-sm pt-2 border-t mt-2">
+                <span>المدن المختارة:</span>
+                <span className="text-left max-w-[60%]">
+                    {bookingData.citiesToVisit.map(cityId => getLocationName(cityId)).join('، ')}
+                </span>
+            </div>
         )}
 
         {bookingData.carType && (

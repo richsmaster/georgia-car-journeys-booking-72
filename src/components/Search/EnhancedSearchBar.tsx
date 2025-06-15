@@ -58,9 +58,9 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuick
               onChange={(e) => updateSearchData('pickupLocation', e.target.value)}
               className="p-2 border border-gray-300 rounded-lg text-sm"
             >
-              <option value="">من أين؟</option>
-              {cities.map(city => (
-                <option key={city.id} value={city.id}>{city.name}</option>
+              <option value="">من أي مطار؟</option>
+              {airports.map(airport => (
+                <option key={airport.id} value={airport.id}>{airport.name}</option>
               ))}
             </select>
             
@@ -108,14 +108,7 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuick
               onChange={(e) => updateSearchData('pickupLocation', e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <option value="">اختر الموقع</option>
-              <optgroup label="المدن">
-                {cities.map(city => (
-                  <option key={city.id} value={city.id}>
-                    {city.name}
-                  </option>
-                ))}
-              </optgroup>
+              <option value="">اختر مطار الانطلاق</option>
               <optgroup label="المطارات">
                 {airports.map(airport => (
                   <option key={airport.id} value={airport.id}>
@@ -137,14 +130,7 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuick
               onChange={(e) => updateSearchData('dropoffLocation', e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <option value="">اختر الموقع</option>
-              <optgroup label="المدن">
-                {cities.map(city => (
-                  <option key={city.id} value={city.id}>
-                    {city.name}
-                  </option>
-                ))}
-              </optgroup>
+              <option value="">اختر مطار العودة</option>
               <optgroup label="المطارات">
                 {airports.map(airport => (
                   <option key={airport.id} value={airport.id}>

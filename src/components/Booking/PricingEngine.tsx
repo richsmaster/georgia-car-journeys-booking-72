@@ -2,24 +2,16 @@ import React from 'react';
 import { useCMS } from '../../hooks/useCMS';
 import { BookingData } from '../../types/booking';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Calculator, Car, MapPin, Calendar, Users } from 'lucide-react';
+import { Calculator, Car, MapPin, Calendar } from 'lucide-react';
+import { calculatePricing } from '../../lib/pricing';
 
 interface PricingEngineProps {
   bookingData: BookingData;
 }
 
-interface PricingBreakdown {
-  receptionCost: number;
-  departureCost: number;
-  toursCost: number;
-  mandatoryTourCost: number;
-  totalDays: number;
-  totalTours: number;
-  hasMandatoryTour: boolean;
-  totalCost: number;
-}
-
-// Export the calculation function for use in other components
+// NOTE: This exported function seems to be legacy or for a different purpose.
+// The new pricing logic is in `lib/pricing.ts`.
+// Keeping this for now to avoid breaking other parts of the app.
 export const calculateBookingPrice = (bookingData: BookingData, cmsBookingData: any) => {
   if (!bookingData.carType || !bookingData.pickupLocation || !bookingData.dropoffLocation) {
     return {
@@ -131,88 +123,7 @@ export const calculateBookingPrice = (bookingData: BookingData, cmsBookingData: 
 const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
   const { data: cmsData } = useCMS();
 
-  const calculatePricing = (): PricingBreakdown => {
-    if (!bookingData.carType || !bookingData.pickupLocation || !bookingData.dropoffLocation) {
-      return {
-        receptionCost: 0,
-        departureCost: 0,
-        toursCost: 0,
-        mandatoryTourCost: 0,
-        totalDays: 0,
-        totalTours: 0,
-        hasMandatoryTour: false,
-        totalCost: 0
-      };
-    }
-
-    const car = cmsData.booking.carTypes.find(c => c.id === bookingData.carType);
-    if (!car) return {
-      receptionCost: 0,
-      departureCost: 0,
-      toursCost: 0,
-      mandatoryTourCost: 0,
-      totalDays: 0,
-      totalTours: 0,
-      hasMandatoryTour: false,
-      totalCost: 0
-    };
-
-    // Calculate days
-    const totalDays = bookingData.pickupDate && bookingData.dropoffDate
-      ? Math.max(1, Math.ceil((new Date(bookingData.dropoffDate).getTime() - new Date(bookingData.pickupDate).getTime()) / (1000 * 60 * 60 * 24)))
-      : 1;
-
-    // Get pickup and dropoff locations
-    const allLocations = [...cmsData.booking.cities, ...cmsData.booking.airports];
-    const pickupLocation = allLocations.find(l => l.id === bookingData.pickupLocation);
-    const dropoffLocation = allLocations.find(l => l.id === bookingData.dropoffLocation);
-
-    // Determine if same city or different cities - properly handle City vs Airport types
-    const getLocationCity = (location: any) => {
-      // If it's an airport, use the city property
-      if (location && 'city' in location) {
-        return location.city;
-      }
-      // If it's a city, use the id directly
-      return location?.id;
-    };
-
-    const pickupCity = getLocationCity(pickupLocation);
-    const dropoffCity = getLocationCity(dropoffLocation);
-    const isSameCity = pickupCity === dropoffCity;
-
-    // Calculate reception and departure costs
-    const receptionCost = isSameCity 
-      ? car.airportTransfer.sameCity.reception 
-      : car.airportTransfer.differentCity.reception;
-
-    const departureCost = isSameCity 
-      ? car.airportTransfer.sameCity.departure 
-      : car.airportTransfer.differentCity.departure;
-
-    // Calculate mandatory tour (when different cities and setting is enabled)
-    const hasMandatoryTour = !isSameCity && cmsData.booking.settings.mandatoryTourWhenDifferentCity;
-    const mandatoryTourCost = hasMandatoryTour ? car.tourDailyPrice : 0;
-
-    // Calculate regular tours cost
-    const totalTours = totalDays;
-    const toursCost = car.tourDailyPrice * totalTours;
-
-    const totalCost = receptionCost + departureCost + toursCost + mandatoryTourCost;
-
-    return {
-      receptionCost,
-      departureCost,
-      toursCost,
-      mandatoryTourCost,
-      totalDays,
-      totalTours,
-      hasMandatoryTour,
-      totalCost
-    };
-  };
-
-  const pricing = calculatePricing();
+  const pricing = calculatePricing(bookingData, cmsData);
   const car = cmsData.booking.carTypes.find(c => c.id === bookingData.carType);
   const currencySymbol = cmsData.booking.settings.currencySymbol;
 
@@ -251,9 +162,12 @@ const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
 
         {/* Total Cost */}
         <div className="mt-4 pt-4 border-t-2 border-blue-200">
-          <div className="text-center py-2">
+          <div className="flex justify-between items-center text-center py-2">
             <p className="text-lg font-bold text-gray-800">
-              تواصل معنا لمعرفة السعر وتأكيد الحجز
+              السعر الإجمالي
+            </p>
+            <p className="text-2xl font-extrabold text-blue-600">
+              {pricing.totalCost > 0 ? `${pricing.totalCost} ${currencySymbol}` : '...'}
             </p>
           </div>
         </div>

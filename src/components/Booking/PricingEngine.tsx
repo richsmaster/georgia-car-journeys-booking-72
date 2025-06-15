@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useCMS } from '../../hooks/useCMS';
 import { BookingData } from '../../types/booking';
@@ -44,7 +45,8 @@ export const calculateBookingPrice = (bookingData: BookingData, cmsBookingData: 
     totalPrice: 0,
     days: 0,
     routeType: 'غير محدد',
-    carTypeName: 'غير موجود']
+    carTypeName: 'غير موجود',
+    notes: ['نوع السيارة غير موجود']
   };
 
   // Calculate days

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useCMS } from '../../hooks/useCMS';
 import { BookingData } from '../../types/booking';
@@ -45,8 +44,7 @@ export const calculateBookingPrice = (bookingData: BookingData, cmsBookingData: 
     totalPrice: 0,
     days: 0,
     routeType: 'غير محدد',
-    carTypeName: 'غير محدد',
-    notes: ['نوع السيارة غير موجود']
+    carTypeName: 'غير موجود']
   };
 
   // Calculate days
@@ -226,7 +224,7 @@ const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <Calculator className="w-5 h-5 text-blue-600" />
-          تفصيل التكلفة
+          السعر الإجمالي
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -248,31 +246,6 @@ const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
             <span className="text-sm font-medium">مدة الرحلة</span>
           </div>
           <span className="font-bold">{pricing.totalDays} أيام</span>
-        </div>
-
-        {/* Pricing Breakdown */}
-        <div className="space-y-3">
-          <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-sm">خدمة الاستقبال</span>
-            <span className="font-semibold">{currencySymbol}{pricing.receptionCost}</span>
-          </div>
-          
-          <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-sm">خدمة التوديع</span>
-            <span className="font-semibold">{currencySymbol}{pricing.departureCost}</span>
-          </div>
-
-          <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-sm">الجولات ({pricing.totalTours} جولة)</span>
-            <span className="font-semibold">{currencySymbol}{pricing.toursCost}</span>
-          </div>
-
-          {pricing.hasMandatoryTour && (
-            <div className="flex justify-between items-center border-b pb-2">
-              <span className="text-sm text-orange-600">جولة إجبارية (مدن مختلفة)</span>
-              <span className="font-semibold text-orange-600">{currencySymbol}{pricing.mandatoryTourCost}</span>
-            </div>
-          )}
         </div>
 
         {/* Total Cost */}

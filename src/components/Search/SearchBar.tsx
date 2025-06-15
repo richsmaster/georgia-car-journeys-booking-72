@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -163,7 +162,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, showFilters = true }) =
                     <option value="">جميع الأنواع</option>
                     {carTypes.map(car => (
                       <option key={car.id} value={car.id}>
-                        {car.name} - ${car.tourDailyPrice}/يوم
+                        {car.name}
                       </option>
                     ))}
                   </select>

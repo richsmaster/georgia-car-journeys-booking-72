@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -68,14 +67,14 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuick
             </select>
             
             <select
-              value={searchData.dropoffLocation}
-              onChange={(e) => updateSearchData('dropoffLocation', e.target.value)}
+              value={searchData.carType}
+              onChange={(e) => updateSearchData('carType', e.target.value)}
               className="p-2 border border-gray-300 rounded-lg text-sm"
             >
-              <option value="">إلى أين؟</option>
+              <option value="">نوع السيارة</option>
               {carTypes.map(car => (
                 <option key={car.id} value={car.id}>
-                  {car.name} - ${car.tourDailyPrice}/يوم
+                  {car.name}
                 </option>
               ))}
             </select>
@@ -214,7 +213,7 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuick
                   <option value="">جميع الأنواع</option>
                   {carTypes.map(car => (
                     <option key={car.id} value={car.id}>
-                      {car.name} - ${car.tourDailyPrice}/يوم
+                      {car.name}
                     </option>
                   ))}
                 </select>
@@ -256,7 +255,7 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuick
           )}
         </div>
 
-        {/* Quick Booking Options */}
+        {/* Quick Booking Options & Search Button */}
         {onQuickBook && (
           <div className="border-t pt-4">
             <h4 className="text-sm font-medium mb-3 text-gray-700">حجز سريع للمسارات الشائعة</h4>

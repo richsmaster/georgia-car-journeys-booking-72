@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -25,6 +24,7 @@ const BookingEditor: React.FC<BookingEditorProps> = ({ data, onSave }) => {
     driverNationalities: data?.driverNationalities || [],
     languages: data?.languages || [],
     tourTypes: data?.tourTypes || [],
+    routes: data?.routes || [],
     settings: data?.settings || {
       id: '1',
       whatsappNumber: '',

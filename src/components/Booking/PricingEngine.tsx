@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useCMS } from '../../hooks/useCMS';
 import { BookingData } from '../../types/booking';
@@ -226,7 +225,7 @@ const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <Calculator className="w-5 h-5 text-blue-600" />
-          السعر الإجمالي
+          ملخص الحجز
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -252,11 +251,10 @@ const PricingEngine: React.FC<PricingEngineProps> = ({ bookingData }) => {
 
         {/* Total Cost */}
         <div className="mt-4 pt-4 border-t-2 border-blue-200">
-          <div className="flex justify-between items-center">
-            <span className="text-lg font-bold text-blue-900">المجموع الكلي</span>
-            <span className="text-2xl font-bold text-blue-600">
-              {currencySymbol}{pricing.totalCost}
-            </span>
+          <div className="text-center py-2">
+            <p className="text-lg font-bold text-gray-800">
+              تواصل معنا لمعرفة السعر وتأكيد الحجز
+            </p>
           </div>
         </div>
 

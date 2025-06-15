@@ -18,7 +18,6 @@ export interface SearchData {
   dropoffDate: string;
   carType: string;
   passengers: number;
-  priceRange: [number, number];
 }
 
 // Export the type for use in other components
@@ -33,7 +32,6 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuick
     dropoffDate: '',
     carType: '',
     passengers: 1,
-    priceRange: [0, 500]
   });
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
@@ -198,7 +196,7 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuick
           </Button>
 
           {showAdvancedFilters && (
-            <div className="grid md:grid-cols-3 gap-4 mb-4">
+            <div className="grid md:grid-cols-2 gap-4 mb-4">
               {/* Car Type Filter */}
               <div className="space-y-2">
                 <label className="text-sm font-medium flex items-center gap-2">
@@ -234,22 +232,6 @@ const EnhancedSearchBar: React.FC<EnhancedSearchBarProps> = ({ onSearch, onQuick
                     <option key={num} value={num}>{num} {num === 1 ? 'مسافر' : 'مسافرين'}</option>
                   ))}
                 </select>
-              </div>
-
-              {/* Price Range */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  نطاق السعر: ${searchData.priceRange[0]} - ${searchData.priceRange[1]}
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="500"
-                  step="10"
-                  value={searchData.priceRange[1]}
-                  onChange={(e) => updateSearchData('priceRange', [0, parseInt(e.target.value)])}
-                  className="w-full"
-                />
               </div>
             </div>
           )}

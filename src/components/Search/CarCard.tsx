@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -44,7 +43,6 @@ const CarCard: React.FC<CarCardProps> = ({ car, currencySymbol, onBook }) => {
       </CardHeader>
       
       <CardContent className="space-y-4">
-        {/* Features */}
         <div className="space-y-2">
           <h4 className="font-medium text-sm text-gray-700">المميزات:</h4>
           <div className="flex flex-wrap gap-2">
@@ -61,7 +59,6 @@ const CarCard: React.FC<CarCardProps> = ({ car, currencySymbol, onBook }) => {
           </div>
         </div>
 
-        {/* Quick Stats */}
         <div className="flex items-center justify-between text-sm text-gray-600">
           <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
@@ -77,13 +74,9 @@ const CarCard: React.FC<CarCardProps> = ({ car, currencySymbol, onBook }) => {
           </div>
         </div>
 
-        {/* Price and Book Button */}
         <div className="flex items-center justify-between pt-4 border-t">
-          <div>
-            <div className="text-2xl font-bold text-blue-600">
-              {currencySymbol}{car.basePrice}
-            </div>
-            <div className="text-sm text-gray-500">في اليوم</div>
+          <div className="text-right">
+            <p className="text-sm text-gray-700 font-medium">تواصل معنا لمعرفة السعر</p>
           </div>
           <Button
             onClick={() => onBook(car.id)}

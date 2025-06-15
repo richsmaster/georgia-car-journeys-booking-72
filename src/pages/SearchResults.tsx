@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
@@ -13,7 +12,7 @@ const SearchResults = () => {
   const navigate = useNavigate();
   const { data: cmsData } = useCMS();
   const [filteredCars, setFilteredCars] = useState<any[]>([]);
-  const [sortBy, setSortBy] = useState('price-low');
+  const [sortBy, setSortBy] = useState('rating');
 
   const carTypes = cmsData.booking?.carTypes?.filter(car => car.enabled) || [];
   const currencySymbol = cmsData.booking?.settings?.currencySymbol || '$';
@@ -23,26 +22,19 @@ const SearchResults = () => {
     let filtered = [...carTypes];
 
     const carTypeFilter = searchParams.get('carType');
-    const maxPrice = searchParams.get('maxPrice');
 
     if (carTypeFilter) {
       filtered = filtered.filter(car => car.id === carTypeFilter);
     }
 
-    if (maxPrice) {
-      filtered = filtered.filter(car => car.tourDailyPrice <= parseInt(maxPrice));
-    }
-
     // Sort cars
     switch (sortBy) {
-      case 'price-low':
-        filtered.sort((a, b) => a.tourDailyPrice - b.tourDailyPrice);
-        break;
-      case 'price-high':
-        filtered.sort((a, b) => b.tourDailyPrice - a.tourDailyPrice);
-        break;
       case 'rating':
         filtered.sort((a, b) => (b.rating || 4.5) - (a.rating || 4.5));
+        break;
+      case 'name':
+        // Assuming you add a name sort option
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
         break;
       default:
         break;
@@ -58,7 +50,6 @@ const SearchResults = () => {
     if (searchData.pickupDate) params.set('pickupDate', searchData.pickupDate);
     if (searchData.dropoffDate) params.set('dropoffDate', searchData.dropoffDate);
     if (searchData.carType) params.set('carType', searchData.carType);
-    if (searchData.priceRange[1] < 500) params.set('maxPrice', searchData.priceRange[1].toString());
 
     navigate(`/search?${params.toString()}`);
   };
@@ -112,8 +103,6 @@ const SearchResults = () => {
                     onChange={(e) => setSortBy(e.target.value)}
                     className="w-full p-2 border rounded-lg"
                   >
-                    <option value="price-low">السعر (الأقل أولاً)</option>
-                    <option value="price-high">السعر (الأعلى أولاً)</option>
                     <option value="rating">التقييم</option>
                     <option value="name">الاسم</option>
                   </select>

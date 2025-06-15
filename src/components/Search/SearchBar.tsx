@@ -16,7 +16,6 @@ export interface SearchData {
   pickupDate: string;
   dropoffDate: string;
   carType: string;
-  priceRange: [number, number];
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, showFilters = true }) => {
@@ -27,7 +26,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, showFilters = true }) =
     pickupDate: '',
     dropoffDate: '',
     carType: '',
-    priceRange: [0, 500]
   });
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
@@ -47,7 +45,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, showFilters = true }) =
     <Card className="w-full max-w-6xl mx-auto shadow-lg">
       <CardContent className="p-6">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-          {/* Pickup Location */}
           <div className="space-y-2">
             <label className="text-sm font-medium flex items-center gap-2">
               <MapPin className="w-4 h-4 text-blue-600" />
@@ -166,22 +163,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, showFilters = true }) =
                       </option>
                     ))}
                   </select>
-                </div>
-
-                {/* Price Range */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">
-                    نطاق السعر: ${searchData.priceRange[0]} - ${searchData.priceRange[1]}
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="500"
-                    step="10"
-                    value={searchData.priceRange[1]}
-                    onChange={(e) => updateSearchData('priceRange', [0, parseInt(e.target.value)])}
-                    className="w-full"
-                  />
                 </div>
               </div>
             )}

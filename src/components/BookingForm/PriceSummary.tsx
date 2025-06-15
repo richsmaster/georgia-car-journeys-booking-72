@@ -10,6 +10,8 @@ interface PriceSummaryProps {
 const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
   const { data: cmsData } = useCMS();
 
+  // The calculation logic can remain for potential future use or backend processing,
+  // but we won't display the result.
   const calculatePrice = () => {
     if (!bookingData.carType || !bookingData.pickupLocation || !bookingData.dropoffLocation) {
       return 0;
@@ -103,9 +105,8 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
 
         <hr className="my-3" />
         
-        <div className="flex justify-between font-bold text-lg text-blue-600">
-          <span>السعر الإجمالي:</span>
-          <span>{cmsData.booking.settings.currencySymbol}{totalPrice}</span>
+        <div className="text-center font-bold text-lg text-blue-600 py-2">
+          <span>تواصل معنا لمعرفة السعر</span>
         </div>
       </CardContent>
     </Card>

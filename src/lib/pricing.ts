@@ -31,7 +31,11 @@ export const calculatePricing = (bookingData: BookingData, cmsData: any): Pricin
   const car = cmsData.booking.carTypes.find((c: any) => c.id === bookingData.carType);
   if (!car) return emptyResult;
 
-  const totalDays = Math.max(1, Math.ceil((new Date(bookingData.dropoffDate).getTime() - new Date(bookingData.pickupDate).getTime()) / (1000 * 60 * 60 * 24)));
+  // حساب الأيام بطريقة صحيحة - من تاريخ الوصول إلى تاريخ المغادرة شاملاً
+  const pickupDate = new Date(bookingData.pickupDate);
+  const dropoffDate = new Date(bookingData.dropoffDate);
+  const timeDifference = dropoffDate.getTime() - pickupDate.getTime();
+  const totalDays = Math.max(1, Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1);
 
   const allLocations = [...cmsData.booking.cities, ...cmsData.booking.airports];
   const pickupLocation = allLocations.find((l: any) => l.id === bookingData.pickupLocation);
@@ -75,4 +79,3 @@ export const calculatePricing = (bookingData: BookingData, cmsData: any): Pricin
     totalCost,
   };
 };
-

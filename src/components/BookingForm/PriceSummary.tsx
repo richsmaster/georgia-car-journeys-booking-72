@@ -69,9 +69,7 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
         {bookingData.pickupDate && bookingData.dropoffDate && (
           <div className="flex justify-between text-sm">
             <span>المدة:</span>
-            <span>
-              {Math.max(1, Math.ceil((new Date(bookingData.dropoffDate).getTime() - new Date(bookingData.pickupDate).getTime()) / (1000 * 60 * 60 * 24)))} أيام
-            </span>
+            <span>{pricing.totalDays} أيام</span>
           </div>
         )}
 
@@ -89,4 +87,3 @@ const PriceSummary: React.FC<PriceSummaryProps> = ({ bookingData }) => {
 };
 
 export default PriceSummary;
-

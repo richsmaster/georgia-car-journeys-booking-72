@@ -45,9 +45,9 @@ const BookingForm: React.FC = () => {
 
     let tourDailyPrice = car.tourDailyPrice;
 
-    // Calculate days
+    // حساب الأيام بطريقة صحيحة - من تاريخ الوصول إلى تاريخ المغادرة شاملاً
     const days = bookingData.pickupDate && bookingData.dropoffDate
-      ? Math.max(1, Math.ceil((new Date(bookingData.dropoffDate).getTime() - new Date(bookingData.pickupDate).getTime()) / (1000 * 60 * 60 * 24)))
+      ? Math.max(1, Math.floor((new Date(bookingData.dropoffDate).getTime() - new Date(bookingData.pickupDate).getTime()) / (1000 * 60 * 60 * 24)) + 1)
       : 1;
 
     // Location factors

@@ -1,4 +1,3 @@
-
 export interface HeroContent {
   id: string;
   title: string;
@@ -55,6 +54,7 @@ export interface SiteSettings {
   secondaryColor: string;
   accentColor: string;
   fontFamily: string;
+  mapboxToken: string;
 }
 
 // Enhanced pricing structures

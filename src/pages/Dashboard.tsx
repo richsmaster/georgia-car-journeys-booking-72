@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useCMS } from '../hooks/useCMS';
 import { Button } from '../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Settings, ArrowLeft, RefreshCcw, Calculator } from 'lucide-react';
+import { Settings, ArrowLeft, RefreshCcw, Calculator, MapPin } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import EnhancedBookingEditor from '../components/Dashboard/EnhancedBookingEditor';
 import HeroEditor from '../components/Dashboard/HeroEditor';
@@ -12,6 +12,7 @@ import TestimonialsEditor from '../components/Dashboard/TestimonialsEditor';
 import FooterEditor from '../components/Dashboard/FooterEditor';
 import SettingsEditor from '../components/Dashboard/SettingsEditor';
 import PricingDashboard from '../components/Dashboard/PricingDashboard';
+import MapManager from '../components/Dashboard/MapManager';
 
 const Dashboard = () => {
   const { data, updateData, resetData, isLoading } = useCMS();
@@ -82,13 +83,14 @@ const Dashboard = () => {
 
       <div className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-8">
             <TabsTrigger value="hero">الصفحة الرئيسية</TabsTrigger>
             <TabsTrigger value="services">الخدمات</TabsTrigger>
             <TabsTrigger value="testimonials">آراء العملاء</TabsTrigger>
             <TabsTrigger value="footer">تذييل الصفحة</TabsTrigger>
             <TabsTrigger value="booking">إعدادات الحجز</TabsTrigger>
             <TabsTrigger value="pricing">إدارة الأسعار</TabsTrigger>
+            <TabsTrigger value="map">إدارة الخريطة</TabsTrigger>
             <TabsTrigger value="settings">الإعدادات</TabsTrigger>
           </TabsList>
 
@@ -114,6 +116,10 @@ const Dashboard = () => {
 
           <TabsContent value="pricing">
             <PricingDashboard />
+          </TabsContent>
+
+          <TabsContent value="map">
+            <MapManager />
           </TabsContent>
 
           <TabsContent value="settings">

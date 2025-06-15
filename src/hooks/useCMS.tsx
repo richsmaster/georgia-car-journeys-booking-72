@@ -29,6 +29,12 @@ export const useCMS = () => {
         }
       };
     }
+    
+    // Ensure settings have mapboxToken field
+    if (!cmsData.settings.mapboxToken) {
+      cmsData.settings.mapboxToken = '';
+    }
+    
     return cmsData;
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -61,6 +67,12 @@ export const useCMS = () => {
           }
         };
       }
+      
+      // Ensure settings have mapboxToken field
+      if (!updatedData.settings.mapboxToken) {
+        updatedData.settings.mapboxToken = '';
+      }
+      
       setData(updatedData);
     } catch (error) {
       console.error('Error updating CMS data:', error);
@@ -97,6 +109,12 @@ export const useCMS = () => {
           }
         };
       }
+      
+      // Ensure settings have mapboxToken field
+      if (!freshData.settings.mapboxToken) {
+        freshData.settings.mapboxToken = '';
+      }
+      
       setData(freshData);
     } catch (error) {
       console.error('Error resetting CMS data:', error);
@@ -130,6 +148,12 @@ export const useCMS = () => {
         }
       };
     }
+    
+    // Ensure settings have mapboxToken field
+    if (!freshData.settings.mapboxToken) {
+      freshData.settings.mapboxToken = '';
+    }
+    
     setData(freshData);
   };
 

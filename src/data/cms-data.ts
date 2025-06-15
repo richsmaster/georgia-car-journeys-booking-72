@@ -356,6 +356,50 @@ export const defaultCMSData: CMSData = {
       { id: 'nature', name: 'جولة طبيعية', factor: 1.4, enabled: true, order: 5 },
       { id: 'beach', name: 'جولة شاطئية', factor: 1.1, enabled: true, order: 6 }
     ],
+    routes: [
+      {
+        id: 'tbilisi-batumi',
+        name: 'رحلة من تبليسي إلى باتومي',
+        from: 'tbilisi',
+        to: 'batumi',
+        prices: {
+          sedan: 150,
+          minivan: 180,
+          van: 220,
+          sprinter: 350,
+        },
+        enabled: true,
+        order: 1,
+      },
+      {
+        id: 'tbilisi-airport-to-city',
+        name: 'من مطار تبليسي إلى المدينة',
+        from: 'tbilisi-airport',
+        to: 'tbilisi',
+        prices: {
+          sedan: 25,
+          minivan: 40,
+          van: 65,
+          sprinter: 120,
+        },
+        enabled: true,
+        order: 2,
+      },
+      {
+        id: 'kutaisi-airport-to-batumi',
+        name: 'من مطار كوتايسي إلى باتومي',
+        from: 'kutaisi-airport',
+        to: 'batumi',
+        prices: {
+          sedan: 90,
+          minivan: 100,
+          van: 110,
+          sprinter: 250,
+        },
+        enabled: true,
+        order: 3,
+      },
+    ],
     settings: {
       id: '1',
       whatsappNumber: '+995551234567',

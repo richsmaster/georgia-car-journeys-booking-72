@@ -169,6 +169,16 @@ export interface BookingSettings {
   mandatoryTourWhenDifferentCity: boolean;
 }
 
+export interface Route {
+  id: string;
+  name: string;
+  from: string; // location id (city or airport)
+  to: string; // location id (city or airport)
+  prices: { [carTypeId: string]: number | undefined };
+  enabled: boolean;
+  order: number;
+}
+
 export interface BookingData {
   cities: City[];
   airports: Airport[];
@@ -178,6 +188,7 @@ export interface BookingData {
   driverNationalities: DriverNationality[];
   languages: Language[];
   tourTypes: TourType[];
+  routes: Route[];
   settings: BookingSettings;
 }
 

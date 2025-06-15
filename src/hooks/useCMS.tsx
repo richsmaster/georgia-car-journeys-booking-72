@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { CMSData } from '../types/cms';
 import { getCMSData, updateCMSData, resetCMSData } from '../data/cms-data';
@@ -17,6 +16,7 @@ export const useCMS = () => {
         driverNationalities: [],
         languages: [],
         tourTypes: [],
+        routes: [],
         settings: {
           id: '1',
           whatsappNumber: '',
@@ -55,6 +55,7 @@ export const useCMS = () => {
           driverNationalities: [],
           languages: [],
           tourTypes: [],
+          routes: [],
           settings: {
             id: '1',
             whatsappNumber: '',
@@ -97,6 +98,7 @@ export const useCMS = () => {
           driverNationalities: [],
           languages: [],
           tourTypes: [],
+          routes: [],
           settings: {
             id: '1',
             whatsappNumber: '',
@@ -136,6 +138,7 @@ export const useCMS = () => {
         driverNationalities: [],
         languages: [],
         tourTypes: [],
+        routes: [],
         settings: {
           id: '1',
           whatsappNumber: '',

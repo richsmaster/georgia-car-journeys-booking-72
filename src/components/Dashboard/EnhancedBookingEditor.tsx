@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Save, History, Shield, Bell } from 'lucide-react';
+import { Save, History, Shield, Bell, Route as RouteIcon } from 'lucide-react';
 import { BookingData } from '../../types/cms';
 import CitiesManager from './CitiesManager';
 import CarTypesManager from './CarTypesManager';
@@ -12,6 +12,7 @@ import DataImportExport from './DataImportExport';
 import BackupManager from './BackupManager';
 import ChangeHistory, { addChangeRecord } from './ChangeHistory';
 import NotificationCenter from './NotificationCenter';
+import RoutesManager from './RoutesManager';
 
 interface EnhancedBookingEditorProps {
   data: BookingData;
@@ -28,6 +29,7 @@ const EnhancedBookingEditor: React.FC<EnhancedBookingEditorProps> = ({ data, onS
     driverNationalities: data?.driverNationalities || [],
     languages: data?.languages || [],
     tourTypes: data?.tourTypes || [],
+    routes: data?.routes || [],
     settings: data?.settings || {
       id: '1',
       whatsappNumber: '',
@@ -88,10 +90,14 @@ const EnhancedBookingEditor: React.FC<EnhancedBookingEditorProps> = ({ data, onS
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-8">
           <TabsTrigger value="cities">المدن</TabsTrigger>
-          <TabsTrigger value="cars">السيارات</TabsTrigger>
           <TabsTrigger value="airports">المطارات</TabsTrigger>
+          <TabsTrigger value="cars">السيارات</TabsTrigger>
+          <TabsTrigger value="routes">
+            <RouteIcon className="w-4 h-4 md:mr-2" />
+            <span className="hidden md:inline">المسارات</span>
+          </TabsTrigger>
           <TabsTrigger value="settings">الإعدادات</TabsTrigger>
           <TabsTrigger value="notifications">
             <Bell className="w-4 h-4 md:mr-2" />
@@ -119,6 +125,16 @@ const EnhancedBookingEditor: React.FC<EnhancedBookingEditorProps> = ({ data, onS
           <CarTypesManager
             carTypes={formData.carTypes}
             onUpdateCarTypes={(carTypes) => setFormData({...formData, carTypes})}
+          />
+        </TabsContent>
+
+        <TabsContent value="routes">
+          <RoutesManager
+            routes={formData.routes}
+            carTypes={formData.carTypes}
+            cities={formData.cities}
+            airports={formData.airports}
+            onUpdateRoutes={(routes) => setFormData({...formData, routes})}
           />
         </TabsContent>
 
